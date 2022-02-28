@@ -1,5 +1,6 @@
 import 'dart:convert'; //json
 import 'package:flutter/material.dart';
+import 'package:mobile_weather_app/functions/forecast_aid.dart';
 import 'package:mobile_weather_app/functions/get_api_key.dart';
 import 'package:mobile_weather_app/functions/get_location.dart';
 import 'package:http/http.dart' as http;
@@ -23,7 +24,6 @@ class _WeatherForecastScreen extends State<WeatherForecastScreen> {
   }
 
   fetchWeatherForecast(double lat, double long) async {
-    //city = "Sacramento";
 
     Uri url = Uri.parse(
         "https://api.openweathermap.org/data/2.5/forecast/daily?lat=$lat&lon=$long&cnt=10&appid=${get_api_key()}");
@@ -40,62 +40,6 @@ class _WeatherForecastScreen extends State<WeatherForecastScreen> {
 
       //updateGUI(); // set state
     }
-  }
-
-  String forecastDay(int ind) {
-    String dayName = "";
-
-    var date = DateTime.now();
-
-    if (ind == 0) {
-      dayName = "Today";
-    } else if (ind == 1) {
-      dayName = "Tomorrow";
-    } else {
-      date.weekday; //1-7
-      switch ((date.weekday - 1 + ind) % 7) {
-        case 0:
-          {
-            dayName = "Monday";
-            break;
-          }
-        case 1:
-          {
-            dayName = "Tuesday";
-            break;
-          }
-        case 2:
-          {
-            dayName = "Wednesday";
-            break;
-          }
-        case 3:
-          {
-            dayName = "Thursday";
-            break;
-          }
-        case 4:
-          {
-            dayName = "Friday";
-            break;
-          }
-        case 5:
-          {
-            dayName = "Saturday";
-            break;
-          }
-        case 6:
-          {
-            dayName = "Sunday";
-            break;
-          }
-        default:
-          {
-            dayName = "ERROR";
-          }
-      }
-    }
-    return dayName;
   }
 
   @override

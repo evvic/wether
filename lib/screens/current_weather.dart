@@ -29,8 +29,6 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
   // has loaded?
   bool loaded = false;
 
-  //void updateGUI() {}
-
   // ignore: prefer_function_declarations_over_variables
   fetchWeather(double lat, double long) async {
     Uri url = Uri.parse(
@@ -54,7 +52,6 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
         longitude = long;
       });
 
-      //updateGUI(); // set state
     }
   }
 
@@ -115,3 +112,7 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
     throw UnimplementedError();
   }
 }
+
+// use a StatefulBuilder for very small and rapid state changes.
+// i.e. if the direction the phone is turning keeps changing and an arrow
+// is rotating to match the direction on the UI
