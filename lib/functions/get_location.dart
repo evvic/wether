@@ -1,12 +1,13 @@
 import 'dart:convert';
 //import 'dart:html';
 
-import 'package:location/location.dart'; // JSON converters
+import 'package:location/location.dart';
+import 'package:mobile_weather_app/store/coordinates/coordinates.dart'; // JSON converters
 
-Future<void> getLocation(var fetch) async {
+Future<void> getLocation(var fetch, final Coordinates coordinates) async {
   Location location = new Location();
 
-  print("Entered getLocation");
+  //print("Entered getLocation");
 
   bool _serviceEnabled;
   PermissionStatus _permissionGranted;
@@ -16,7 +17,6 @@ Future<void> getLocation(var fetch) async {
   if (!_serviceEnabled) {
     _serviceEnabled = await location.requestService();
     if (!_serviceEnabled) {
-      //return false;
       return;
     }
   }
@@ -25,14 +25,15 @@ Future<void> getLocation(var fetch) async {
   if (_permissionGranted == PermissionStatus.denied) {
     _permissionGranted = await location.requestPermission();
     if (_permissionGranted != PermissionStatus.granted) {
-      //return false;
       return;
     }
   }
 
   _locationData = await location.getLocation();
 
-  fetch(_locationData.latitude!, _locationData.longitude!);
+  // save coordinates to data store
+  coordinates.latitude = _locationData.latitude!;
+  coordinates.longitude = _locationData.longitude!;
 
-  //return true;
+  fetch(_locationData.latitude!, _locationData.longitude!);
 }

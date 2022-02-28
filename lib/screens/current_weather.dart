@@ -2,10 +2,12 @@ import 'dart:convert'; // JSON converters
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobile_weather_app/functions/get_api_key.dart'; //contains api key
 import 'package:mobile_weather_app/functions/get_location.dart';
 import 'package:mobile_weather_app/screens/forecast.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_weather_app/store/coordinates/coordinates.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:location/location.dart';
 
@@ -19,14 +21,12 @@ class CurrentWeatherOnly extends StatefulWidget {
 class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
   var weather_data;
   // location
-  //MOVE LAT AND LON TO STORE
-  double latitude = 0.0;
-  double longitude = 0.0;
+  static Coordinates coordinates = Coordinates();
 
   @override
   void initState() {
     super.initState();
-    getLocation(fetchWeather); //temp values
+    getLocation(fetchWeather, coordinates); //temp values
   }
 
   // ignore: prefer_function_declarations_over_variables
@@ -43,8 +43,6 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
 
       setState(() {
         weather_data = weatherData;
-        latitude = lat;
-        longitude = long;
       });
     }
   }
@@ -55,12 +53,12 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
       appBar: AppBar(
         title: const Text("Current Weather"),
       ),
-      body: weather_data == null
+      body: weather_data == null || coordinates.longitude == null
           ? const Center(
               child: CircularProgressIndicator(),
             )
           : RefreshIndicator(
-              onRefresh: () => getLocation(fetchWeather),
+              onRefresh: () => getLocation(fetchWeather, coordinates),
               child: SingleChildScrollView(
                   child: Column(
                 // evenly space all children vertically on the one screen
@@ -69,24 +67,33 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
                   // city name //
                   Text(weather_data["name"]),
                   // short weather desc //
-                  Text(weather_data['weather'][0]['description'], style: TextStyle(fontSize: 40)),
+                  Text(weather_data['weather'][0]['description'],
+                      style: TextStyle(fontSize: 40)),
                   // icon loaded //
                   Image.network(
                     'https://openweathermap.org/img/wn/${weather_data['weather'][0]['icon']}.png',
                     scale: 0.8,
                   ),
                   // temperature (celcius) //
-                  Text((weather_data['main']['temp'] - 273.15).toStringAsFixed(2) + " C",
+                  Text(
+                      (weather_data['main']['temp'] - 273.15)
+                              .toStringAsFixed(2) +
+                          " C",
                       style: TextStyle(fontSize: 40)),
                   // wind speed m/s //
-                  Text("${weather_data['wind']['speed']} m/s", style: TextStyle(fontSize: 40)),
+                  Text("${weather_data['wind']['speed']} m/s",
+                      style: TextStyle(fontSize: 40)),
                   // lat & long //
-                  Text(latitude.toString() + ', ' + longitude.toString()),
+                  //Text(latitude.toString() + ', ' + longitude.toString()),
+                  Observer(
+                      builder: (_) => Text(coordinates.latitude.toString() +
+                          ', ' +
+                          coordinates.longitude.toString())),
                   ElevatedButton(
                     child: const Text('Get location'),
                     onPressed: () {
                       // fetch data from internet
-                      getLocation(fetchWeather); //no arrow function needed here
+                      getLocation(fetchWeather, coordinates); //no arrow function needed here
                       print("Enter onPressed");
                     },
                   ),
@@ -99,7 +106,7 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
                           // class we use to change to another page
                           MaterialPageRoute(
                               builder: (context) =>
-                                  const WeatherForecastScreen()));
+                                  WeatherForecastScreen()));
                     },
                   ),
                 ],
