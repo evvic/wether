@@ -13,12 +13,10 @@ class WeatherForecastScreen extends StatefulWidget {
 }
 
 class _WeatherForecastScreen extends State<WeatherForecastScreen> {
-  final List<String> entries = <String>['A', 'B', 'C'];
   List? tododata;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchWeatherForecast(13.0, 100.0); //temp values
   }

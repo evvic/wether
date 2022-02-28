@@ -17,22 +17,21 @@ class CurrentWeatherOnly extends StatefulWidget {
 }
 
 class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
-  String cityName = "Bangkok";
-  String currentWeather = "Sunny";
-  double temp = 0;
-  double windSpeed = 0;
-  String icon = "01n";
+  var weather_data;
   // location
-  //var location = new Location();
+  //MOVE LAT AND LON TO STORE
   double latitude = 0.0;
   double longitude = 0.0;
-  // has loaded?
-  bool loaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getLocation(fetchWeather); //temp values
+  }
 
   // ignore: prefer_function_declarations_over_variables
   fetchWeather(double lat, double long) async {
     Uri url = Uri.parse(
-        //"https://api.openweathermap.org/data/2.5/weather?q=$city&appid=6c433438776b5be4ac86001dc88de74d");
         "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$long&appid=${get_api_key()}");
 
     final response = await http.get(url);
@@ -42,16 +41,11 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
 
       var weatherData = json.decode(response.body);
 
-      this.setState(() {
-        cityName = weatherData["name"];
-        temp = weatherData['main']['temp'] - 273.15;
-        currentWeather = weatherData['weather'][0]['description'];
-        windSpeed = weatherData['wind']['speed'];
-        icon = weatherData['weather'][0]['icon'];
+      setState(() {
+        weather_data = weatherData;
         latitude = lat;
         longitude = long;
       });
-
     }
   }
 
@@ -59,9 +53,9 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(cityName),
+        title: const Text("Current Weather"),
       ),
-      body: loaded == true
+      body: weather_data == null
           ? const Center(
               child: CircularProgressIndicator(),
             )
@@ -72,14 +66,21 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
                 // evenly space all children vertically on the one screen
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(currentWeather, style: TextStyle(fontSize: 40)),
+                  // city name //
+                  Text(weather_data["name"]),
+                  // short weather desc //
+                  Text(weather_data['weather'][0]['description'], style: TextStyle(fontSize: 40)),
+                  // icon loaded //
                   Image.network(
-                    'https://openweathermap.org/img/wn/$icon.png',
+                    'https://openweathermap.org/img/wn/${weather_data['weather'][0]['icon']}.png',
                     scale: 0.8,
                   ),
-                  Text(temp.toStringAsFixed(2) + " C",
+                  // temperature (celcius) //
+                  Text((weather_data['main']['temp'] - 273.15).toStringAsFixed(2) + " C",
                       style: TextStyle(fontSize: 40)),
-                  Text("$windSpeed m/s", style: TextStyle(fontSize: 40)),
+                  // wind speed m/s //
+                  Text("${weather_data['wind']['speed']} m/s", style: TextStyle(fontSize: 40)),
+                  // lat & long //
                   Text(latitude.toString() + ', ' + longitude.toString()),
                   ElevatedButton(
                     child: const Text('Get location'),
@@ -108,7 +109,6 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     throw UnimplementedError();
   }
 }
