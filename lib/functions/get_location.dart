@@ -30,7 +30,7 @@ Future<void> getLocation(var fetch, Coordinate coordinate) async {
 
   _locationData = await location.getLocation();
 
-  // save coordinates to data store
+  // save coordinates to data store Provider
   coordinate.latitude = _locationData.latitude!;
   coordinate.longitude = _locationData.longitude!;
 

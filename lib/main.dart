@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 //import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:mobile_weather_app/screens/current_weather.dart';
 
+// container for coordinates
 final container = ProviderContainer();
 
 void main() {

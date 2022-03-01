@@ -11,7 +11,6 @@ class Coordinate extends ChangeNotifier {
   }
 
   set setLongitude(double lon) {
-    print("updating long... " + lon.toString());
     longitude = lon;
     notifyListeners();
   }
