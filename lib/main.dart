@@ -1,9 +1,18 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+//import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:mobile_weather_app/screens/current_weather.dart';
 
+final container = ProviderContainer();
+
 void main() {
-  runApp(const MaterialApp(
-    title: 'Navigation Basics',
-    home: CurrentWeatherOnly(),
-  ));
+  runApp(
+    ProviderScope(
+      child: MaterialApp(
+        title: 'Navigation Basics',
+        home: CurrentWeatherOnly(),
+      )),
+  );
 }

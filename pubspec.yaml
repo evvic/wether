@@ -32,6 +32,8 @@ dependencies:
   http: ^0.13.4
   sensors_plus: ^1.2.1
   location: ^4.2.0
+  # improved over Provider
+  flutter_riverpod:
 
 
   # The following adds the Cupertino Icons font to your application.

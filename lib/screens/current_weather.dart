@@ -1,22 +1,25 @@
 import 'dart:convert'; // JSON converters
-//import 'dart:html';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter/material.dart';
 import 'package:mobile_weather_app/functions/get_api_key.dart'; //contains api key
 import 'package:mobile_weather_app/functions/get_location.dart';
+import 'package:mobile_weather_app/main.dart';
+import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:mobile_weather_app/screens/forecast.dart';
 import 'package:http/http.dart' as http;
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:location/location.dart';
 
-class CurrentWeatherOnly extends StatefulWidget {
+
+class CurrentWeatherOnly extends ConsumerStatefulWidget {
   const CurrentWeatherOnly({Key? key}) : super(key: key);
 
   @override
-  State<CurrentWeatherOnly> createState() => _CurrentWeatherOnly();
+  _CurrentWeatherOnly createState() => _CurrentWeatherOnly();
 }
 
-class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
+class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
   var weather_data;
   // location
   //static Coordinates coordinates = Coordinates();
@@ -24,7 +27,17 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
   @override
   void initState() {
     super.initState();
-    getLocation(fetchWeather); //temp values
+    // read in providers
+    ref.read(coordinateNotifier);
+
+    getLocation(fetchWeather, container.read(coordinateNotifier)); //temp values
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // disposing the globally self managed container.
+    container.dispose();
   }
 
   // ignore: prefer_function_declarations_over_variables
@@ -47,6 +60,8 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
 
   @override
   Widget build(BuildContext context) {
+    //final coordinate = ref.watch(coordinateNotifier);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Current Weather"),
@@ -56,7 +71,7 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
               child: CircularProgressIndicator(),
             )
           : RefreshIndicator(
-              onRefresh: () => getLocation(fetchWeather),
+              onRefresh: () => getLocation(fetchWeather, container.read(coordinateNotifier)),
               child: SingleChildScrollView(
                   child: Column(
                 // evenly space all children vertically on the one screen
@@ -82,16 +97,12 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
                   Text("${weather_data['wind']['speed']} m/s",
                       style: TextStyle(fontSize: 40)),
                   // lat & long //
-                  //Text(latitude.toString() + ', ' + longitude.toString()),
-                  /*Observer(
-                      builder: (_) => Text(coordinates.latitude.toString() +
-                          ', ' +
-                          coordinates.longitude.toString())), */
+                  Text(container.read(coordinateNotifier).latitude.toString()),
                   ElevatedButton(
                     child: const Text('Get location'),
                     onPressed: () {
                       // fetch data from internet
-                      getLocation(fetchWeather); //no arrow function needed here
+                      getLocation(fetchWeather, container.read(coordinateNotifier)); //no arrow function needed here
                       print("Enter onPressed");
                     },
                   ),
@@ -103,8 +114,7 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
                           context,
                           // class we use to change to another page
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  WeatherForecastScreen()));
+                              builder: (context) => WeatherForecastScreen()));
                     },
                   ),
                 ],

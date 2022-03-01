@@ -1,29 +1,36 @@
 import 'dart:convert'; //json
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_weather_app/functions/forecast_aid.dart';
 import 'package:mobile_weather_app/functions/get_api_key.dart';
 import 'package:mobile_weather_app/functions/get_location.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_weather_app/main.dart';
+import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 
-class WeatherForecastScreen extends StatefulWidget {
+class WeatherForecastScreen extends ConsumerStatefulWidget {
   const WeatherForecastScreen({Key? key}) : super(key: key);
 
   @override
-  State<WeatherForecastScreen> createState() => _WeatherForecastScreen();
+  _WeatherForecastScreen createState() => _WeatherForecastScreen();
 }
 
-class _WeatherForecastScreen extends State<WeatherForecastScreen> {
+class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
   List? tododata;
 
   @override
   void initState() {
     super.initState();
-    //print("forecast init state " + coordinates.latitude.toString());
-    fetchWeatherForecast(13, 100); //temp values
+
+    ref.read(coordinateNotifier);
+
+    //print("forecast init state: " + forecast_container.read(coordinateNotifier).latitude.toString());
+    //fetchWeatherForecast(13, 100); //temp values
     // below is the correct call but
 
-    //getLocation(fetchWeatherForecast, coordinates);
+    getLocation(fetchWeatherForecast, container.read(coordinateNotifier));
   }
+
 
   fetchWeatherForecast(double lat, double long) async {
     Uri url = Uri.parse(
@@ -46,13 +53,15 @@ class _WeatherForecastScreen extends State<WeatherForecastScreen> {
   @override
   // ignore: dead_code, dead_code
   Widget build(BuildContext context) {
+    //final coordinate = ref.watch(coordinateNotifier);
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('Forecast'),
         ),
         body: tododata != null
             ? RefreshIndicator(
-                onRefresh: () => getLocation(fetchWeatherForecast),
+                onRefresh: () => getLocation(fetchWeatherForecast, container.read(coordinateNotifier)),
                 child: ListView.separated(
                   padding: const EdgeInsets.all(8),
                   itemCount: tododata!.length,
@@ -68,7 +77,8 @@ class _WeatherForecastScreen extends State<WeatherForecastScreen> {
                                   .round()
                                   .toString() +
                               '°C ' +
-                              tododata![index]["weather"][0]["description"])),
+                              tododata![index]["weather"][0]["description"]
+                              + ', ' + container.read(coordinateNotifier).latitude.toString())),
                     );
                   },
                   separatorBuilder: (BuildContext context, int index) =>
