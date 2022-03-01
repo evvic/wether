@@ -2,12 +2,10 @@ import 'dart:convert'; // JSON converters
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobile_weather_app/functions/get_api_key.dart'; //contains api key
 import 'package:mobile_weather_app/functions/get_location.dart';
 import 'package:mobile_weather_app/screens/forecast.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile_weather_app/store/coordinates/coordinates.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:location/location.dart';
 
@@ -21,12 +19,12 @@ class CurrentWeatherOnly extends StatefulWidget {
 class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
   var weather_data;
   // location
-  static Coordinates coordinates = Coordinates();
+  //static Coordinates coordinates = Coordinates();
 
   @override
   void initState() {
     super.initState();
-    getLocation(fetchWeather, coordinates); //temp values
+    getLocation(fetchWeather); //temp values
   }
 
   // ignore: prefer_function_declarations_over_variables
@@ -53,12 +51,12 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
       appBar: AppBar(
         title: const Text("Current Weather"),
       ),
-      body: weather_data == null || coordinates.longitude == null
+      body: weather_data == null
           ? const Center(
               child: CircularProgressIndicator(),
             )
           : RefreshIndicator(
-              onRefresh: () => getLocation(fetchWeather, coordinates),
+              onRefresh: () => getLocation(fetchWeather),
               child: SingleChildScrollView(
                   child: Column(
                 // evenly space all children vertically on the one screen
@@ -85,15 +83,15 @@ class _CurrentWeatherOnly extends State<CurrentWeatherOnly> {
                       style: TextStyle(fontSize: 40)),
                   // lat & long //
                   //Text(latitude.toString() + ', ' + longitude.toString()),
-                  Observer(
+                  /*Observer(
                       builder: (_) => Text(coordinates.latitude.toString() +
                           ', ' +
-                          coordinates.longitude.toString())),
+                          coordinates.longitude.toString())), */
                   ElevatedButton(
                     child: const Text('Get location'),
                     onPressed: () {
                       // fetch data from internet
-                      getLocation(fetchWeather, coordinates); //no arrow function needed here
+                      getLocation(fetchWeather); //no arrow function needed here
                       print("Enter onPressed");
                     },
                   ),

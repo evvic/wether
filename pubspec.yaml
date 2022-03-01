@@ -39,17 +39,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   location_web: ^3.1.1
 
-  # used for mobx state store
-  mobx:
-  flutter_mobx:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  # used for mobx state store
-  build_runner:
-  mobx_codegen:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

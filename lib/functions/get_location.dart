@@ -1,10 +1,8 @@
 import 'dart:convert';
-//import 'dart:html';
 
 import 'package:location/location.dart';
-import 'package:mobile_weather_app/store/coordinates/coordinates.dart'; // JSON converters
 
-Future<void> getLocation(var fetch, final Coordinates coordinates) async {
+Future<void> getLocation(var fetch) async {
   Location location = new Location();
 
   //print("Entered getLocation");
@@ -32,8 +30,8 @@ Future<void> getLocation(var fetch, final Coordinates coordinates) async {
   _locationData = await location.getLocation();
 
   // save coordinates to data store
-  coordinates.latitude = _locationData.latitude!;
-  coordinates.longitude = _locationData.longitude!;
+  //coordinates.latitude = _locationData.latitude!;
+  //coordinates.longitude = _locationData.longitude!;
 
   fetch(_locationData.latitude!, _locationData.longitude!);
 }

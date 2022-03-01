@@ -4,7 +4,6 @@ import 'package:mobile_weather_app/functions/forecast_aid.dart';
 import 'package:mobile_weather_app/functions/get_api_key.dart';
 import 'package:mobile_weather_app/functions/get_location.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile_weather_app/store/coordinates/coordinates.dart';
 
 class WeatherForecastScreen extends StatefulWidget {
   const WeatherForecastScreen({Key? key}) : super(key: key);
@@ -15,14 +14,12 @@ class WeatherForecastScreen extends StatefulWidget {
 
 class _WeatherForecastScreen extends State<WeatherForecastScreen> {
   List? tododata;
-  final Coordinates coordinates = Coordinates();
 
   @override
   void initState() {
     super.initState();
-    print("forecast init state " + coordinates.latitude.toString());
-    fetchWeatherForecast(
-        coordinates.latitude, coordinates.longitude); //temp values
+    //print("forecast init state " + coordinates.latitude.toString());
+    fetchWeatherForecast(13, 100); //temp values
     // below is the correct call but
 
     //getLocation(fetchWeatherForecast, coordinates);
@@ -55,7 +52,7 @@ class _WeatherForecastScreen extends State<WeatherForecastScreen> {
         ),
         body: tododata != null
             ? RefreshIndicator(
-                onRefresh: () => getLocation(fetchWeatherForecast, coordinates),
+                onRefresh: () => getLocation(fetchWeatherForecast),
                 child: ListView.separated(
                   padding: const EdgeInsets.all(8),
                   itemCount: tododata!.length,
