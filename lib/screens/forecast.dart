@@ -7,6 +7,7 @@ import 'package:mobile_weather_app/functions/get_location.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_weather_app/main.dart';
 import 'package:mobile_weather_app/providers/coordinate_provider.dart';
+import 'package:mobile_weather_app/providers/forecast_provider.dart';
 
 class WeatherForecastScreen extends ConsumerStatefulWidget {
   const WeatherForecastScreen({Key? key}) : super(key: key);
@@ -55,36 +56,53 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
   Widget build(BuildContext context) {
     //final coordinate = ref.watch(coordinateNotifier);
 
-    return Scaffold(
+
+    AsyncValue<List<ForecastProvider>> config = ref.watch(forecastProvider);
+
+    return config.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+
+      error: (err, stack) => Text('Error: $err'),
+
+      data: (forecastProvider) {
+        return Scaffold(
         appBar: AppBar(
           title: const Text('Forecast'),
         ),
-        body: tododata != null
-            ? RefreshIndicator(
-                onRefresh: () => getLocation(fetchWeatherForecast, container.read(coordinateNotifier)),
-                child: ListView.separated(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: tododata!.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      height: 50,
-                      color: Colors.amber[
-                          ((tododata!.length - 1 - index) * 100).round()],
-                      child: Center(
-                          child: Text(forecastDay(index) +
-                              ', ' +
-                              (tododata![index]["feels_like"]["day"] - 273.15)
-                                  .round()
-                                  .toString() +
-                              '°C ' +
-                              tododata![index]["weather"][0]["description"]
-                              + ', ' + container.read(coordinateNotifier).latitude.toString())),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const Divider(),
-                ))
-            : const Center(
-                child: CircularProgressIndicator())); //loading forecast data
+        body:
+          ListView.separated(
+            padding: const EdgeInsets.all(8),
+            itemCount: forecastProvider.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                height: 50,
+                color: Colors.amber[
+                    ((forecastProvider.length - 1 - index) * 100).round()],
+                child:
+                  Center(
+                    child: Text(forecastDay(index) + ', ' +
+                      forecastProvider[index].celsius.toString() + '°C ' +
+                      forecastProvider[index].description
+                      ),
+                  )
+                /*Center(
+                    child: Text(forecastDay(index) +
+                        ', ' +
+                        (forecastProvider![index]["feels_like"]["day"] - 273.15)
+                            .round()
+                            .toString() +
+                        '°C ' +
+                        forecastProvider![index]["weather"][0]["description"]
+                        + ', ' + container.read(coordinateNotifier).latitude.toString())), */
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(),
+          ));
+
+      },
+    );
+
+    //loading forecast data
   }
 }
