@@ -1,9 +1,9 @@
 import 'dart:convert'; //json
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_weather_app/functions/forecast_aid.dart';
-import 'package:mobile_weather_app/functions/get_api_key.dart';
-import 'package:mobile_weather_app/functions/location_services.dart';
+import 'package:mobile_weather_app/services/forecast_services.dart';
+import 'package:mobile_weather_app/services/get_api_key.dart';
+import 'package:mobile_weather_app/services/location_services.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:mobile_weather_app/providers/forecast_provider.dart';

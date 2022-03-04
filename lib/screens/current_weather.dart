@@ -2,8 +2,8 @@ import 'dart:convert'; // JSON converters
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_weather_app/functions/get_api_key.dart'; //contains api key
-import 'package:mobile_weather_app/functions/location_services.dart';
+import 'package:mobile_weather_app/services/get_api_key.dart'; //contains api key
+import 'package:mobile_weather_app/services/location_services.dart';
 import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:mobile_weather_app/screens/forecast.dart';
 import 'package:http/http.dart' as http;
