@@ -11,7 +11,6 @@ import 'package:http/http.dart' as http;
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:location/location.dart';
 
-
 class CurrentWeatherOnly extends ConsumerStatefulWidget {
   const CurrentWeatherOnly({Key? key}) : super(key: key);
 
@@ -21,6 +20,7 @@ class CurrentWeatherOnly extends ConsumerStatefulWidget {
 
 class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
   var weather_data;
+  String? error_code = null;
   // location
   //static Coordinates coordinates = Coordinates();
 
@@ -42,18 +42,29 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
 
   // ignore: prefer_function_declarations_over_variables
   fetchWeather(double lat, double long) async {
+    setState(() {
+      error_code = null;
+    });
+    
     Uri url = Uri.parse(
         "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$long&appid=${get_api_key()}");
 
-    final response = await http.get(url);
+    try {
+      final response = await http.get(url);
 
-    if (response.statusCode == 200) {
-      // good response
+      if (response.statusCode == 200) {
+        // good response
 
-      var weatherData = json.decode(response.body);
+        var weatherData = json.decode(response.body);
 
+        setState(() {
+          weather_data = weatherData;
+        });
+      }
+    } catch (e) {
+      print(e);
       setState(() {
-        weather_data = weatherData;
+        error_code = e.toString();
       });
     }
   }
@@ -67,11 +78,30 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
         title: const Text("Current Weather"),
       ),
       body: weather_data == null
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+          ? ((error_code == null)
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : (Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                      Text(error_code!),
+                      ElevatedButton(
+                        child: const Text('Get location'),
+                        onPressed: () {
+                          // fetch data from internet
+                          getLocation(
+                              fetchWeather,
+                              container.read(
+                                  coordinateNotifier)); //no arrow function needed here
+                          print("Enter onPressed");
+                        },
+                      ),
+                    ]))))
           : RefreshIndicator(
-              onRefresh: () => getLocation(fetchWeather, container.read(coordinateNotifier)),
+              onRefresh: () =>
+                  getLocation(fetchWeather, container.read(coordinateNotifier)),
               child: SingleChildScrollView(
                   child: Column(
                 // evenly space all children vertically on the one screen
@@ -102,7 +132,10 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
                     child: const Text('Get location'),
                     onPressed: () {
                       // fetch data from internet
-                      getLocation(fetchWeather, container.read(coordinateNotifier)); //no arrow function needed here
+                      getLocation(
+                          fetchWeather,
+                          container.read(
+                              coordinateNotifier)); //no arrow function needed here
                       print("Enter onPressed");
                     },
                   ),
