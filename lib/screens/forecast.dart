@@ -29,9 +29,8 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
     //fetchWeatherForecast(13, 100); //temp values
     // below is the correct call but
 
-    getLocation(fetchWeatherForecast, container.read(coordinateNotifier));
+    //getLocation(fetchWeatherForecast, container.read(coordinateNotifier));
   }
-
 
   fetchWeatherForecast(double lat, double long) async {
     Uri url = Uri.parse(
@@ -56,52 +55,47 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
   Widget build(BuildContext context) {
     //final coordinate = ref.watch(coordinateNotifier);
 
+    final config = ref.watch(forecastProvider);
 
-    AsyncValue<List<ForecastProvider>> config = ref.watch(forecastProvider);
-
-    return config.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-
-      error: (err, stack) => Text('Error: $err'),
-
-      data: (forecastProvider) {
-        return Scaffold(
-        appBar: AppBar(
-          title: const Text('Forecast'),
-        ),
-        body:
-          ListView.separated(
-            padding: const EdgeInsets.all(8),
-            itemCount: forecastProvider.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                height: 50,
-                color: Colors.amber[
-                    ((forecastProvider.length - 1 - index) * 100).round()],
-                child:
-                  Center(
-                    child: Text(forecastDay(index) + ', ' +
-                      forecastProvider[index].celsius.toString() + '°C ' +
-                      forecastProvider[index].description
-                      ),
-                  )
-                /*Center(
-                    child: Text(forecastDay(index) +
-                        ', ' +
-                        (forecastProvider![index]["feels_like"]["day"] - 273.15)
-                            .round()
-                            .toString() +
-                        '°C ' +
-                        forecastProvider![index]["weather"][0]["description"]
-                        + ', ' + container.read(coordinateNotifier).latitude.toString())), */
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
-          ));
-
-      },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Forecast"),
+      ),
+      body: RefreshIndicator(
+          onRefresh: () async {
+            ref.refresh(forecastProvider);
+            await ref.read(forecastProvider.future);
+          },
+          child: Center(
+            child: config.when(
+                data: (data) => (ListView.separated(
+                      padding: const EdgeInsets.all(8),
+                      itemCount: data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Card(
+                          child: Column(
+                            children: <Widget>[
+                              ListTile(
+                                title: Text(forecastDay(index) +
+                                    ', ' +
+                                    data[index].description),
+                                subtitle: Text(data[index].celsius.toString() +
+                                    '°C '),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(),
+                    )),
+                error: (err, stack) => Text('Error: $err'),
+                loading: () =>
+                    const Center(child: CircularProgressIndicator())),
+          )),
     );
+
+
 
     //loading forecast data
   }

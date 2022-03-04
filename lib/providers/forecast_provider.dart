@@ -62,22 +62,24 @@ final forecastProvider = FutureProvider<List<ForecastProvider>>((ref) async {
 
   //final List vals = ;
 
-  var obj = json.decode(response.body);
+  final obj = await json.decode(response.body);
 
   // init ret n declaration with first val
-  List<ForecastProvider> ret = [ForecastProvider(obj["list"][0])];
+  List<ForecastProvider> ret = []; //[ForecastProvider(obj["list"][0])];
+  //ret = await obj["list"];
+
 
   for (var item in obj["list"]) {
     ret.add(ForecastProvider(item));
   }
-
+  
   //ForecastProvider.setForecast(content);
 
   print("return value of forecast provider:");
   //print(ret);
 
   // remove duplicate 1st item
-  ret.removeAt(0);
+  //ret.removeAt(0);
 
-  return ret;
+  return Future.value(ret);
 });
