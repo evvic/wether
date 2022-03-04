@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Coordinate extends ChangeNotifier {
-  double latitude = 6.9;
-  double longitude = 4.20;
+  double? latitude;
+  double? longitude;
 
   set setLatitude(double lat) {
     latitude = lat;

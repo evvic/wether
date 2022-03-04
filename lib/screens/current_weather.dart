@@ -3,13 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter/material.dart';
 import 'package:mobile_weather_app/functions/get_api_key.dart'; //contains api key
-import 'package:mobile_weather_app/functions/get_location.dart';
-import 'package:mobile_weather_app/main.dart';
+import 'package:mobile_weather_app/functions/location_services.dart';
 import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:mobile_weather_app/screens/forecast.dart';
 import 'package:http/http.dart' as http;
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:location/location.dart';
+
+import '../main.dart';
 
 class CurrentWeatherOnly extends ConsumerStatefulWidget {
   const CurrentWeatherOnly({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
     // read in providers
     ref.read(coordinateNotifier);
 
-    getLocation(fetchWeather, container.read(coordinateNotifier)); //temp values
+    getLocation(fetchWeather); //temp values
   }
 
   @override
@@ -45,7 +46,7 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
     setState(() {
       error_code = null;
     });
-    
+
     Uri url = Uri.parse(
         "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$long&appid=${get_api_key()}");
 
@@ -91,17 +92,25 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
                         child: const Text('Get location'),
                         onPressed: () {
                           // fetch data from internet
-                          getLocation(
-                              fetchWeather,
-                              container.read(
-                                  coordinateNotifier)); //no arrow function needed here
+                          getLocation(fetchWeather); //no arrow function needed here
                           print("Enter onPressed");
+                        },
+                      ),
+                      ElevatedButton(
+                        child: const Text('Forecast'),
+                        onPressed: () {
+                          // Navigate to second route when tapped.
+                          Navigator.push(
+                              context,
+                              // class we use to change to another page
+                              MaterialPageRoute(
+                                  builder: (context) => WeatherForecastScreen()));
                         },
                       ),
                     ]))))
           : RefreshIndicator(
               onRefresh: () =>
-                  getLocation(fetchWeather, container.read(coordinateNotifier)),
+                  getLocation(fetchWeather),
               child: SingleChildScrollView(
                   child: Column(
                 // evenly space all children vertically on the one screen
@@ -133,9 +142,7 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
                     onPressed: () {
                       // fetch data from internet
                       getLocation(
-                          fetchWeather,
-                          container.read(
-                              coordinateNotifier)); //no arrow function needed here
+                          fetchWeather); //no arrow function needed here
                       print("Enter onPressed");
                     },
                   ),
