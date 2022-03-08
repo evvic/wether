@@ -33,17 +33,15 @@ dependencies:
   sensors_plus: ^1.2.1
   location: ^4.2.0
   # improved over Provider
-  flutter_riverpod:
+  flutter_riverpod: ^1.0.0
   # to more beautifully parse json info
-  json_annotation:
-  # for HTTP requests
-  dio:
-
+  json_annotation: ^4.4.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   location_web: ^3.1.1
+  dio: ^4.0.4
 
 
 dev_dependencies:
@@ -51,10 +49,11 @@ dev_dependencies:
     sdk: flutter
   # build runner to create generated files
   build_runner:
-  # creating custom options
-  freezed:
+  # creating custom unions, annotation requires freezed
+  freezed: ^1.1.1
+  freezed_annotation: ^1.1.0
   # json
-  json_serializable:
+  json_serializable: ^6.1.5
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

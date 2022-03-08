@@ -55,7 +55,7 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
   Widget build(BuildContext context) {
     //final coordinate = ref.watch(coordinateNotifier);
 
-    final config = ref.watch(forecastProvider);
+    final config = ref.watch(forecastProvider/* .state */);
 
     return Scaffold(
       appBar: AppBar(
@@ -66,32 +66,36 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
             ref.refresh(forecastProvider);
             await ref.read(forecastProvider.future);
           },
+
           child: Center(
             child: config.when(
-                data: (data) => (ListView.separated(
-                      padding: const EdgeInsets.all(8),
-                      itemCount: data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Card(
-                          child: Column(
-                            children: <Widget>[
-                              ListTile(
-                                title: Text(forecastDay(index) +
-                                    ', ' +
-                                    data[index].description),
-                                subtitle: Text(data[index].celsius.toString() +
-                                    '°C '),
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const Divider(),
-                    )),
-                error: (err, stack) => Text('Error: $err'),
-                loading: () =>
-                    const Center(child: CircularProgressIndicator())),
+              //() => const Text("og"),
+              loading: () =>
+                  const Center(child: CircularProgressIndicator()),
+              error: (err, stack) => Text('Error: $err'),
+              data: (data) => (ListView.separated(
+                padding: const EdgeInsets.all(8),
+                itemCount: data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    child: Column(
+                      children: <Widget>[
+                        ListTile(
+                          title: Text(forecastDay(index) +
+                              ', ' +
+                              data[index].description),
+                          subtitle: Text(data[index].celsius.toString() +
+                              '°C '),
+                        )
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(),
+              )),
+
+              ),
           )),
     );
 

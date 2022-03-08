@@ -9,6 +9,7 @@ part 'forecast_data.g.dart';
 
 @JsonSerializable()
 class ForecastData {
+
   ForecastData({
     required this.temp_day,
     required this.temp_min,

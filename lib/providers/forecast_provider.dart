@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:location/location.dart';
+import 'package:mobile_weather_app/application/notifier/weather_notifier.dart';
 import 'package:mobile_weather_app/services/get_api_key.dart';
 import 'package:mobile_weather_app/services/location_services.dart';
 import 'package:mobile_weather_app/main.dart';
 import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_weather_app/utils/forecast_client.dart';
 
 class ForecastProvider extends ChangeNotifier {
   var forecast_item;
@@ -80,6 +82,7 @@ final forecastProvider = FutureProvider<List<ForecastProvider>>((ref) async {
     }
   } catch (e) {
     print("inside forecastProvider catch");
+
     //throw AsyncValue.error(e.toString());
   }
 
