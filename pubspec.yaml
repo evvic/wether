@@ -34,6 +34,10 @@ dependencies:
   location: ^4.2.0
   # improved over Provider
   flutter_riverpod:
+  # to more beautifully parse json info
+  json_annotation:
+  # for HTTP requests
+  dio:
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -45,6 +49,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # build runner to create generated files
+  build_runner:
+  # creating custom options
+  freezed:
+  # json
+  json_serializable:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
