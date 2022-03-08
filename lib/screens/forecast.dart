@@ -16,7 +16,6 @@ class WeatherForecastScreen extends ConsumerStatefulWidget {
 }
 
 class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
-  List? tododata;
 
   @override
   void initState() {
@@ -41,9 +40,11 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
 
       var weatherData = json.decode(response.body);
 
+      /*
       setState(() {
         tododata = weatherData["list"];
       });
+      */
 
       //updateGUI(); // set state
     }
