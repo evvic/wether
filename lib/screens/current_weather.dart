@@ -2,6 +2,7 @@ import 'dart:convert'; // JSON converters
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_weather_app/providers/weather_provider.dart';
 import 'package:mobile_weather_app/services/get_api_key.dart'; //contains api key
 import 'package:mobile_weather_app/services/location_services.dart';
 import 'package:mobile_weather_app/providers/coordinate_provider.dart';
@@ -74,19 +75,26 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       body: Consumer(
-        builder: (context, watch, child) {
+        builder: (context, ref, child) {
+
+          final state = ref.watch(weatherNotifierProvider);
+
           // figure out how to refactor this>>>>>>
           // so state works properly
-          final state = watch(weatherNotifierProvider.state);
-
-          return state.when(
-            () => WeatherPageInitial(),
-            loading: () => const Center(child: CircularProgressIndicator()),
-            loaded: (data) => WeatherPageLoaded(weather: data),
-            error: (message) => (err, stack) => Text('Error: $err'),
-          );
+          if (state != null) {
+            return state.when(
+              () => WeatherPageInitial(),
+              loading: () => const Center(child: CircularProgressIndicator()),
+              loaded: (data) => WeatherPageLoaded(weather: data),
+              error: (message) => (err, stack) => Text('Error: $err'),
+            );
+          } else {
+            return const Text("null state error");
+          }
         },
       ),
     );
@@ -98,6 +106,27 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
   }
 }
 
+
 // use a StatefulBuilder for very small and rapid state changes.
 // i.e. if the direction the phone is turning keeps changing and an arrow
 // is rotating to match the direction on the UI
+
+class CurrentWeatherOnly2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Consumer(
+        builder: (context, watch, child) {
+          final state = watch(userNotifierProvider.state);
+
+          return state.when(
+            () => HomePageInitial(),
+            loading: () => HomePageLoading(),
+            loaded: (userInfo) => HomePageLoaded(user: userInfo),
+            error: (message) => HomePageError(message: message),
+          );
+        },
+      ),
+    );
+  }
+}

@@ -7,14 +7,15 @@ import 'package:mobile_weather_app/model/weather_data.dart';
 import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:mobile_weather_app/services/get_api_key.dart';
 import 'package:mobile_weather_app/services/location_services.dart';
-import 'package:http/http.dart' as http;
+//import 'package:http/http.dart' as http;
 
 class WeatherClient {
+  late Dio _dio;
+
   Future<Weather?> fetchWeatherInfo() async {
     // get up to date location data
     var locData = await getLocationData();
 
-    Dio _dio;
 
     if (locData != null) {
       updateCoordinates(locData);

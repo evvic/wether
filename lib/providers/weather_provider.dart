@@ -7,4 +7,5 @@ final weatherClientProvider = Provider<WeatherClient>((ref) => WeatherClient());
 
 final weatherNotifierProvider = StateNotifierProvider(
   (ref) => WeatherNotifier(ref.watch(weatherClientProvider)),
+  
 );

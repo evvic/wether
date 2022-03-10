@@ -11,9 +11,21 @@ final container = ProviderContainer();
 void main() {
   runApp(
     ProviderScope(
-      child: MaterialApp(
-        title: 'Navigation Basics',
-        home: CurrentWeatherOnly(),
-      )),
+      child: MyApp(),
+    ),
   );
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Weather',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: CurrentWeatherOnly(),
+    );
+  }
 }
