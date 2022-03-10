@@ -7,6 +7,8 @@ import 'package:mobile_weather_app/services/location_services.dart';
 import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:mobile_weather_app/screens/forecast.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_weather_app/widgets/weather_data.dart';
+import 'package:mobile_weather_app/widgets/weather_error.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:location/location.dart';
 
@@ -70,102 +72,38 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
     }
   }
 
+  // to refresh data
+  _refresh(WidgetRef ref) async {
+    try {
+      ref.refresh(weatherProvider);
+      return await ref.read(weatherProvider.future);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    //final coordinate = ref.watch(coordinateNotifier);
+    // create weatherProvider functionality
+    // copy forecast methodology
+    final config = ref.watch(weatherProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Current Weather"),
+        title: const Text("Forecast"),
       ),
-      body: weather_data == null
-          ? ((error_code == null)
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : (Center(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                      Text(error_code!),
-                      ElevatedButton(
-                        child: const Text('Get location'),
-                        onPressed: () {
-                          // fetch data from internet
-                          getLocation(fetchWeather); //no arrow function needed here
-                          print("Enter onPressed");
-                        },
-                      ),
-                      ElevatedButton(
-                        child: const Text('Forecast'),
-                        onPressed: () {
-                          // Navigate to second route when tapped.
-                          Navigator.push(
-                              context,
-                              // class we use to change to another page
-                              MaterialPageRoute(
-                                  builder: (context) => WeatherForecastScreen()));
-                        },
-                      ),
-                    ]))))
-          : RefreshIndicator(
-              onRefresh: () =>
-                  getLocation(fetchWeather),
-              child: SingleChildScrollView(
-                  child: Column(
-                // evenly space all children vertically on the one screen
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  // city name //
-                  Text(weather_data["name"]),
-                  // short weather desc //
-                  Text(weather_data['weather'][0]['description'],
-                      style: TextStyle(fontSize: 40)),
-                  // icon loaded //
-                  Image.network(
-                    'https://openweathermap.org/img/wn/${weather_data['weather'][0]['icon']}.png',
-                    scale: 0.8,
-                  ),
-                  // temperature (celcius) //
-                  Text(
-                      (weather_data['main']['temp'] - 273.15)
-                              .toStringAsFixed(2) +
-                          " C",
-                      style: TextStyle(fontSize: 40)),
-                  // wind speed m/s //
-                  Text("${weather_data['wind']['speed']} m/s",
-                      style: TextStyle(fontSize: 40)),
-                  // lat & long //
-                  Text(container.read(coordinateNotifier).latitude.toString()),
-                  ElevatedButton(
-                    child: const Text('Get location'),
-                    onPressed: () {
-                      // fetch data from internet
-                      getLocation(
-                          fetchWeather); //no arrow function needed here
-                      print("Enter onPressed");
-                    },
-                  ),
-                  ElevatedButton(
-                    child: const Text('Forecast'),
-                    onPressed: () {
-                      // Navigate to second route when tapped.
-                      Navigator.push(
-                          context,
-                          // class we use to change to another page
-                          MaterialPageRoute(
-                              builder: (context) => WeatherForecastScreen()));
-                    },
-                  ),
-                ],
-              ))),
+      body: RefreshIndicator(
+          color: const Color.fromRGBO(100, 100, 100, 100),
+          onRefresh: ()  => _refresh(ref),
+          child: Center(
+            child: config.when(
+                data: (data) => WeatherData(data: data, ref: ref),
+                error: (err, stack) => WeatherError(message: err.toString(), refresh_: _refresh, ref: ref),
+                loading: () =>
+                    const Center(child: CircularProgressIndicator())),
+          )),
     );
-  }
 
-  @override
-  State<StatefulWidget> createState() {
-    throw UnimplementedError();
-  }
 }
 
 // use a StatefulBuilder for very small and rapid state changes.
