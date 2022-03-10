@@ -1,4 +1,5 @@
 import 'dart:convert'; //json
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_weather_app/services/forecast_services.dart';
@@ -7,6 +8,8 @@ import 'package:mobile_weather_app/services/location_services.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:mobile_weather_app/providers/forecast_provider.dart';
+import 'package:mobile_weather_app/widgets/forecast_data.dart';
+import 'package:mobile_weather_app/widgets/forecast_error.dart';
 
 class WeatherForecastScreen extends ConsumerStatefulWidget {
   const WeatherForecastScreen({Key? key}) : super(key: key);
@@ -16,7 +19,6 @@ class WeatherForecastScreen extends ConsumerStatefulWidget {
 }
 
 class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -50,52 +52,39 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
     }
   }
 
+  // to refresh data
+  _refresh(WidgetRef ref) async {
+    try {
+      ref.refresh(forecastProvider);
+      return await ref.read(forecastProvider.future);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   // ignore: dead_code, dead_code
   Widget build(BuildContext context) {
     //final coordinate = ref.watch(coordinateNotifier);
 
     final config = ref.watch(forecastProvider);
+    //final data1 = config.asData;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Forecast"),
       ),
       body: RefreshIndicator(
-          onRefresh: () async {
-            ref.refresh(forecastProvider);
-            await ref.read(forecastProvider.future);
-          },
+          color: const Color.fromRGBO(100, 100, 100, 100),
+          onRefresh: () => _refresh(ref),
           child: Center(
             child: config.when(
-                data: (data) => (ListView.separated(
-                      padding: const EdgeInsets.all(8),
-                      itemCount: data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Card(
-                          child: Column(
-                            children: <Widget>[
-                              ListTile(
-                                title: Text(forecastDay(index) +
-                                    ', ' +
-                                    data[index].description),
-                                subtitle: Text(data[index].celsius.toString() +
-                                    '°C '),
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const Divider(),
-                    )),
-                error: (err, stack) => Text('Error: $err'),
+                data: (data) => ForecastData(data: data, ref: ref),
+                error: (err, stack) => ForecastError(message: err.toString(), refresh_: _refresh, ref: ref),
                 loading: () =>
                     const Center(child: CircularProgressIndicator())),
           )),
     );
-
-
 
     //loading forecast data
   }

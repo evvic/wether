@@ -12,7 +12,7 @@ import 'package:mobile_weather_app/main.dart';
 import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:http/http.dart' as http;
 
-class ForecastProvider extends ChangeNotifier {
+class ForecastProvider {
   var forecast_item;
   // extarcted items
   int celsius = 0;
@@ -21,11 +21,12 @@ class ForecastProvider extends ChangeNotifier {
   // basic constructor
   ForecastProvider(var item) {
     forecast_item = item;
+    celsius = 6;
   }
 
   set setData(var data) {
     forecast_item = data;
-    notifyListeners();
+    //notifyListeners();
   }
 
   /* getters */
@@ -71,6 +72,7 @@ final forecastProvider = FutureProvider<List<ForecastProvider>>((ref) async {
     if (response.statusCode != 200) {
       // bad response
       // return
+      return Future.error(response.statusCode.toString());
     }
 
     final obj = await json.decode(response.body);
@@ -80,8 +82,19 @@ final forecastProvider = FutureProvider<List<ForecastProvider>>((ref) async {
     }
   } catch (e) {
     print("inside forecastProvider catch");
+    return Future.error(e.toString());
     //throw AsyncValue.error(e.toString());
   }
 
   return Future.value(ret);
 });
+
+/*class FetchForecast {
+  Future<List<ForecastProvider>> fetch() {}
+} */
+
+
+
+/* NEW METHOD CAUSE FUTURE PROVIDER IS BROKEN */
+
+//final databaseProvider = Provider((ref) => ForecastDatabase());
