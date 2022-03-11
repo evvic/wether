@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_weather_app/services/forecast_services.dart';
+import 'package:mobile_weather_app/widgets/weather_loaded/loaded_api_logo.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_heading.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_humidity.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_long_desc.dart';
@@ -32,7 +35,7 @@ class WeatherLoaded extends StatelessWidget {
             LoadedLongDesc(description: "overcast clouds"),
             //humidy and feels like
             LoadedHumidity(percentage: 50, feelsLike: 33),
-            Text("openweatherapi")
+            LoadedApiLogo(),
           ],
         ));
     //Text(data.descMain))
