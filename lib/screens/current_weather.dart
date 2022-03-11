@@ -1,18 +1,23 @@
 import 'dart:convert'; // JSON converters
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_weather_app/providers/weather_provider.dart';
 import 'package:mobile_weather_app/services/get_api_key.dart'; //contains api key
 import 'package:mobile_weather_app/services/location_services.dart';
 import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:mobile_weather_app/screens/forecast.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile_weather_app/widgets/weather_data.dart';
+import 'package:mobile_weather_app/widgets/weather_loaded.dart';
 import 'package:mobile_weather_app/widgets/weather_error.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:location/location.dart';
 
 import '../main.dart';
+
+//andoid color theme
+//https://fredgrott.medium.com/android-12-dynamic-colors-in-flutter-apps-d6c3848f5e6c
 
 class CurrentWeatherOnly extends ConsumerStatefulWidget {
   const CurrentWeatherOnly({Key? key}) : super(key: key);
@@ -90,20 +95,36 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Forecast"),
+        title: const Text("Weather", style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          CupertinoButton(
+              child: Text("Forecast"),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    // class we use to change to another page
+                    MaterialPageRoute(
+                        builder: (context) => WeatherForecastScreen()));
+              })
+          //icon: Icon(Icons.save),
+          //label: 'Save');
+        ],
       ),
       body: RefreshIndicator(
           color: const Color.fromRGBO(100, 100, 100, 100),
-          onRefresh: ()  => _refresh(ref),
+          onRefresh: () => _refresh(ref),
           child: Center(
             child: config.when(
-                data: (data) => WeatherData(data: data, ref: ref),
-                error: (err, stack) => WeatherError(message: err.toString(), refresh_: _refresh, ref: ref),
+                data: (data) => WeatherLoaded(data: data, ref: ref),
+                error: (err, stack) => WeatherError(
+                    message: err.toString(), refresh_: _refresh, ref: ref),
                 loading: () =>
                     const Center(child: CircularProgressIndicator())),
           )),
     );
-
+  }
 }
 
 // use a StatefulBuilder for very small and rapid state changes.

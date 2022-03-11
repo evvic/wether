@@ -2,26 +2,31 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_weather_app/services/forecast_services.dart';
+import 'package:mobile_weather_app/widgets/weather_loaded/loaded_heading.dart';
+import 'package:mobile_weather_app/widgets/weather_loaded/loaded_temp_extrema.dart';
 
-class WeatherData extends StatelessWidget {
+class WeatherLoaded extends StatelessWidget {
   var data;
   WidgetRef ref;
 
-  WeatherData({required this.data, required this.ref});
+  WeatherLoaded({required this.data, required this.ref});
+
+  static const IconData arrow_upward = IconData(0xe0a0, fontFamily: 'MaterialIcons');
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.all(8),
-      itemCount: data.length,
-      itemBuilder: (BuildContext context, int index) {
-        // pull to refresh
-        // https://evanfang.medium.com/how-to-make-your-scrollview-support-pull-to-refresh-864f1b0a02e2
-        return Text("expand on data");
-      },
-      separatorBuilder: (BuildContext context, int index) =>
-          const Divider(),
-    );
+    return SingleChildScrollView(
+        // no fucking way it actually refreshse
+        physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()),
+        child: Column(
+          children: [
+            // container for horizontal icon and temp
+            LoadedHeading(temp: 25, description: "Cloudy", icon: "10d"),
+            LoadedTempExtrema(min: 15, max: 34),
+            ],
+        ));
+    //Text(data.descMain))
   }
 }
 

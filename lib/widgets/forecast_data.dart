@@ -12,6 +12,8 @@ class ForecastData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      // for scroll physics on refresh
+      physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       padding: const EdgeInsets.all(8),
       itemCount: data.length,
       itemBuilder: (BuildContext context, int index) {
