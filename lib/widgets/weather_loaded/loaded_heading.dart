@@ -42,7 +42,7 @@ class LoadedHeading extends StatelessWidget {
             ),
             Expanded(
                 child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Column(

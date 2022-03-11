@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_weather_app/services/forecast_services.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_heading.dart';
+import 'package:mobile_weather_app/widgets/weather_loaded/loaded_humidity.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_temp_extrema.dart';
 
 class WeatherLoaded extends StatelessWidget {
@@ -11,7 +12,8 @@ class WeatherLoaded extends StatelessWidget {
 
   WeatherLoaded({required this.data, required this.ref});
 
-  static const IconData arrow_upward = IconData(0xe0a0, fontFamily: 'MaterialIcons');
+  static const IconData arrow_upward =
+      IconData(0xe0a0, fontFamily: 'MaterialIcons');
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +25,14 @@ class WeatherLoaded extends StatelessWidget {
           children: [
             // container for horizontal icon and temp
             LoadedHeading(temp: 25, description: "Cloudy", icon: "10d"),
+            // temp min and max card
             LoadedTempExtrema(min: 15, max: 34),
-            ],
+            // add long description here!!!
+            Text("overcast clouds"),
+            //humidy and feels like
+            LoadedHumidity(percentage: 50, feelsLike: 33),
+            Text("openweatherapi")
+          ],
         ));
     //Text(data.descMain))
   }

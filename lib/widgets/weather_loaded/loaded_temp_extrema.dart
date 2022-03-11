@@ -16,7 +16,9 @@ class LoadedTempExtrema extends StatelessWidget {
   // represent through a background gradient of red to blue, i.e. where a hotter day would be more red
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+      child: Container(
         width: double.infinity,
         //height: double.maxFinite,
         child: Card(
@@ -46,6 +48,8 @@ class LoadedTempExtrema extends StatelessWidget {
                           ],
                         ),
                       ),
-                    ]))));
+                  ]
+                  )
+                  ))));
   }
 }
