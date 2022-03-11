@@ -11,9 +11,14 @@ final container = ProviderContainer();
 void main() {
   runApp(
     ProviderScope(
-      child: MaterialApp(
-        title: 'Navigation Basics',
-        home: CurrentWeatherOnly(),
-      )),
+      child:
+        MaterialApp(
+          title: 'Navigation Basics',
+          home: CurrentWeatherOnly(),
+          theme: ThemeData(
+            //colorSchemeSeed:
+          )
+        ),
+    )
   );
 }

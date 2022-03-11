@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_weather_app/services/forecast_services.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_heading.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_humidity.dart';
+import 'package:mobile_weather_app/widgets/weather_loaded/loaded_long_desc.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_temp_extrema.dart';
 
 class WeatherLoaded extends StatelessWidget {
@@ -28,7 +29,7 @@ class WeatherLoaded extends StatelessWidget {
             // temp min and max card
             LoadedTempExtrema(min: 15, max: 34),
             // add long description here!!!
-            Text("overcast clouds"),
+            LoadedLongDesc(description: "overcast clouds"),
             //humidy and feels like
             LoadedHumidity(percentage: 50, feelsLike: 33),
             Text("openweatherapi")

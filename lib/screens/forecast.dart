@@ -75,7 +75,7 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
         title: const Text("Forecast"),
       ),
       body: RefreshIndicator(
-          color: const Color.fromRGBO(100, 100, 100, 100),
+          //color: const Color.fromRGBO(100, 100, 100, 100),
           onRefresh: () => _refresh(ref),
           child: Center(
             child: config.when(

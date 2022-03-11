@@ -121,7 +121,7 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
                 error: (err, stack) => WeatherError(
                     message: err.toString(), refresh_: _refresh, ref: ref),
                 loading: () =>
-                    const Center(child: CircularProgressIndicator())),
+                    const Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.black),))),
           )),
     );
   }
