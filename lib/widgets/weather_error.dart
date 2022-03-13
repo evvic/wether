@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WeatherError extends StatelessWidget {
@@ -10,13 +11,23 @@ class WeatherError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Text('Error: $message'),
-      CupertinoButton(
-        child: const Text("refresh"),
-        // maybe dont need arrow function
-        onPressed: () => refresh_(ref))
-    ]);
+    return Padding(
+      padding: const EdgeInsets.all(25),
+      child: Column(
+        children: <Widget> [
+          const Icon(Icons.public_off_rounded,
+            size: 64,),
+          Padding(
+              padding: EdgeInsets.all(20),
+            child: Text('Error: $message',
+            style: TextStyle(fontSize: 18),)),
+          CupertinoButton(
+            child: const Text("refresh"),
+            // maybe dont need arrow function
+            onPressed: () => refresh_(ref))
+        ]
+      )
+    );
   }
 }
 

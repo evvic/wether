@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 //import 'dart:js';
 
 import 'package:flutter/material.dart';
@@ -41,7 +42,7 @@ final weatherProvider = FutureProvider<WeatherData>((ref) async {
     Uri url = Uri.parse(
         "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$long&appid=${get_api_key()}");
 
-    final response = await http.get(url);
+    final response = await http.get(url).timeout(const Duration(seconds: 5));
 
     if (response.statusCode != 200) {
       // bad response
@@ -52,7 +53,10 @@ final weatherProvider = FutureProvider<WeatherData>((ref) async {
     final obj = await json.decode(response.body);
 
     return Future.value(WeatherData.fromJsonOld(obj));
-
+  } on TimeoutException catch (e) {
+    return Future.error(e.toString());
+  } on SocketException catch (e) {
+    return Future.error(e.toString());
   } catch (e) {
     print("inside forecastProvider catch");
     return Future.error(e.toString());
