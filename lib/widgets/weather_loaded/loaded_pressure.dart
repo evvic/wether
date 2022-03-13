@@ -60,7 +60,7 @@ class _LoadedPressure extends State<LoadedPressure> {
   Widget build(BuildContext context) {
     return Expanded(
         child: AspectRatio(
-      aspectRatio: 1 / 1.1,
+      aspectRatio: 1 / 1.15,
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50),
