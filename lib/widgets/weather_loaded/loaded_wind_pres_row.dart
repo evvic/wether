@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_pressure.dart';
+import 'package:mobile_weather_app/widgets/weather_loaded/loaded_wind.dart';
 
 class LoadedWindPresRow extends StatelessWidget {
   double windSpeed;
@@ -26,16 +27,7 @@ class LoadedWindPresRow extends StatelessWidget {
           child: Row(
             children: [
               LoadedPressure(pressure: pressure),
-              Expanded(
-                  child: AspectRatio(
-                aspectRatio: 1 / 1,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  color: Colors.green,
-                ),
-              )),
+              LoadedWind(windSpeed: windSpeed, windDir: windDir),
             ],
           ),
         ));
