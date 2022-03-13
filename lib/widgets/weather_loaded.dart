@@ -10,6 +10,7 @@ import 'package:mobile_weather_app/widgets/weather_loaded/loaded_heading.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_humidity.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_long_desc.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_temp_extrema.dart';
+import 'package:mobile_weather_app/widgets/weather_loaded/loaded_wind_pres_row.dart';
 
 class WeatherLoaded extends StatelessWidget {
   var data;
@@ -36,6 +37,7 @@ class WeatherLoaded extends StatelessWidget {
             LoadedLongDesc(description: "overcast clouds"),
             //humidy and feels like
             LoadedHumidity(percentage: 50, feelsLike: 33),
+            LoadedWindPresRow(windSpeed: 0.45, windDir: 123, pressure: 1017),
             LoadedApiLogo(),
             LoadedGitLogo(),
           ],
