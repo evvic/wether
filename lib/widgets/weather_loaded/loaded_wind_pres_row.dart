@@ -9,8 +9,11 @@ class LoadedWindPresRow extends StatelessWidget {
   int windDir;
   int pressure;
 
-  LoadedWindPresRow({Key? key, required this.windSpeed, required this.windDir,
-    required this.pressure})
+  LoadedWindPresRow(
+      {Key? key,
+      required this.windSpeed,
+      required this.windDir,
+      required this.pressure})
       : super(key: key);
 
   static const ztyle = TextStyle(fontSize: 18);
@@ -27,8 +30,7 @@ class LoadedWindPresRow extends StatelessWidget {
           child: Row(
             children: [
               LoadedPressure(pressure: pressure),
-              LoadedWind(windSpeed: windSpeed, windDir: windDir)
-              ,
+              LoadedWind(windSpeed: windSpeed, windDir: windDir),
             ],
           ),
         ));
