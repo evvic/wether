@@ -46,8 +46,8 @@ class _LoadedWind extends State<LoadedWind> {
     });
   }
 
-  toKmh(double ws) {
-    int ret = 4;
+  toMph(double ws) {
+    int ret = (ws * 2.23694).round();
     return ret;
   }
 
@@ -145,8 +145,8 @@ class _LoadedWind extends State<LoadedWind> {
                   // inner wind speed text
                   Column(
                     children: [
-                      Text(toKmh(windSpeed).toString(), style: feelLikeZtyle,),
-                      Text("km/h", style: subZtyle,)],
+                      Text(toMph(windSpeed).toString(), style: feelLikeZtyle,),
+                      Text("mph", style: subZtyle,)],
                   ),
 
                   // Translate arrow icon to point and be on the right side
