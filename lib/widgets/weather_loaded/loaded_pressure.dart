@@ -88,6 +88,7 @@ class _LoadedPressure extends State<LoadedPressure> {
                   ],
                 ),
               ),
+              // BAROMETER UI
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
                 child: CustomPaint(
