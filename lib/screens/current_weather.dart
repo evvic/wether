@@ -10,6 +10,7 @@ import 'package:mobile_weather_app/services/location_services.dart';
 import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:mobile_weather_app/screens/forecast.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_weather_app/widgets/appbar.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded.dart';
 import 'package:mobile_weather_app/widgets/weather_error.dart';
 import 'package:sensors_plus/sensors_plus.dart';
@@ -100,33 +101,7 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        title: Text(container.read(coordinateNotifier).location.toString(),
-         style: TextStyle(color: Colors.black)),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        flexibleSpace: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-            child: Container(
-              color: Colors.transparent,
-            ),
-          ),
-        ),
-        actions: [
-          CupertinoButton(
-              child: Text("Forecast"),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    // class we use to change to another page
-                    MaterialPageRoute(
-                        builder: (context) => WeatherForecastScreen()));
-              })
-          //icon: Icon(Icons.save),
-          //label: 'Save');
-        ],
-      ),
+      appBar: appBarUni(context, inForecast: false),
       body: RefreshIndicator(
           displacement: 150,
           color: const Color.fromRGBO(100, 100, 100, 100),

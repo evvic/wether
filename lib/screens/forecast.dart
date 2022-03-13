@@ -8,6 +8,7 @@ import 'package:mobile_weather_app/services/location_services.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:mobile_weather_app/providers/forecast_provider.dart';
+import 'package:mobile_weather_app/widgets/appbar.dart';
 import 'package:mobile_weather_app/widgets/forecast_data.dart';
 import 'package:mobile_weather_app/widgets/forecast_error.dart';
 
@@ -71,9 +72,8 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
     //final data1 = config.asData;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Forecast"),
-      ),
+      extendBodyBehindAppBar: true,
+      appBar: appBarUni(context, inForecast: true),
       body: RefreshIndicator(
           //color: const Color.fromRGBO(100, 100, 100, 100),
           onRefresh: () => _refresh(ref),
