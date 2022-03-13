@@ -28,6 +28,9 @@ class _LoadedWind extends State<LoadedWind> {
   double wCont = 60; //inner tranparent container
   double hCont = 60; //inner tranparent container
 
+  var compassPrimary = Colors.deepOrange.shade100; //lightBlueAccent;
+  var compassSecondary = Colors.deepOrange; //lightBlue;
+
   late double xIcon;
   late double yIcon;
 
@@ -38,8 +41,8 @@ class _LoadedWind extends State<LoadedWind> {
     super.initState();
 
     setState(() {
-      xIcon = (wCont/2 + 10)* cos(windDir/180);
-      yIcon = (hCont/2 + 10)* sin(windDir/180);
+      xIcon = (wCont / 2 + 10) * cos(windDir / 180);
+      yIcon = (hCont / 2 + 10) * sin(windDir / 180);
     });
   }
 
@@ -49,7 +52,7 @@ class _LoadedWind extends State<LoadedWind> {
   }
 
   //static final hLevelStyle = TextStyle(fontSize: 18, color: col);
-  static const subZtyle = TextStyle(fontSize: 18, color: Colors.black54);
+  static const subZtyle = TextStyle(fontSize: 14, color: Colors.black54);
   static const feelLikeZtyle = TextStyle(
       fontSize: 24, color: Colors.black87, fontWeight: FontWeight.bold);
 
@@ -91,7 +94,7 @@ class _LoadedWind extends State<LoadedWind> {
                 child: Stack(alignment: Alignment.center, children: [
                   DashedCircle(
                       dashes: 100,
-                      strokeWidth: 10,
+                      strokeWidth: 20,
                       color: Colors.black,
                       child: AspectRatio(
                           aspectRatio: 1,
@@ -125,30 +128,36 @@ class _LoadedWind extends State<LoadedWind> {
                               )),
                               CardinalCharacter(char: 'S'),
                             ],
-                          ))),
+                          )
+                        )
+                      ),
+                  // Circle
                   Container(
                     margin: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
-                        color: Colors.deepOrangeAccent,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.blueAccent, width: 3),
-                      ),
-
-                    //constraints: BoxConstraints.expand(),
-                    //color: Colors.blue,
+                      color: compassPrimary,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: compassSecondary, width: 5),
+                    ),
                     width: 80,
                     height: 80,
                   ),
-                  Text(toKmh(windSpeed).toString()),
+                  // inner wind speed text
+                  Column(
+                    children: [
+                      Text(toKmh(windSpeed).toString(), style: feelLikeZtyle,),
+                      Text("km/h", style: subZtyle,)],
+                  ),
+
                   // Translate arrow icon to point and be on the right side
                   Transform.translate(
-                    offset: Offset((wCont/1.2) * cos(pi*(windDir-90)/180.0),
-                      (hCont/1.2) * sin(pi*(windDir-90)/180.0)),
+                    offset: Offset(
+                        (wCont / 1.2) * cos(pi * (windDir - 90) / 180.0),
+                        (hCont / 1.2) * sin(pi * (windDir - 90) / 180.0)),
                     child: Transform.rotate(
                       angle: pi * (windDir / 180.0),
-                      child: Icon(
-                        Icons.details_rounded,
-                        size: 30,),
+                      child: Icon(Icons.details_rounded,
+                          size: 30, color: compassSecondary),
                     ),
                   )
                   //)

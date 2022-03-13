@@ -6,8 +6,7 @@ class LoadedHumidity extends StatefulWidget {
   final int percentage;
   final int feelsLike;
 
-  LoadedHumidity(
-      {Key? key, required this.percentage, required this.feelsLike})
+  LoadedHumidity({Key? key, required this.percentage, required this.feelsLike})
       : super(key: key);
 
   @override
@@ -71,8 +70,6 @@ class _LoadedHumidity extends State<LoadedHumidity> {
   static const subZtyle = TextStyle(fontSize: 20, color: Colors.black87);
   static const feelLikeZtyle = TextStyle(fontSize: 16, color: Colors.black87);
 
-
-
   // in the future maybe add some color to this that represetns how hot and/or cool the high and low is for today
   // represent through a background gradient of red to blue, i.e. where a hotter day would be more red
   @override
@@ -120,25 +117,25 @@ class _LoadedHumidity extends State<LoadedHumidity> {
                           children: [
                             Text("$percentage%", style: subZtyle),
                             const Icon(Icons.circle_rounded, size: 10),
-                            Text(humidityLevel, style: TextStyle(color: col, fontSize: 20))
+                            Text(humidityLevel,
+                                style: TextStyle(color: col, fontSize: 20))
                           ],
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20.0, right: 20.0, top: 15.0),
-                      child: RichText(
-                        text: TextSpan(
-                          style: feelLikeZtyle,
-                          children: <TextSpan> [
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20.0, top: 15.0),
+                        child: RichText(
+                          text: TextSpan(style: feelLikeZtyle, children: <
+                              TextSpan>[
                             TextSpan(text: "Humidity is making it feel like "),
-                            TextSpan(text: "$feelsLike°C", style: TextStyle(fontWeight: FontWeight.bold)),
+                            TextSpan(
+                                text: "$feelsLike°C",
+                                style: TextStyle(fontWeight: FontWeight.bold)),
                             TextSpan(text: ".")
-                          ]
-                        ),
-                      )
-                    )
+                          ]),
+                        ))
                   ],
                 ),
               ))),

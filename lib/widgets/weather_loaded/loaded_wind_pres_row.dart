@@ -27,7 +27,8 @@ class LoadedWindPresRow extends StatelessWidget {
           child: Row(
             children: [
               LoadedPressure(pressure: pressure),
-              LoadedWind(windSpeed: windSpeed, windDir: windDir),
+              LoadedWind(windSpeed: windSpeed, windDir: windDir)
+              ,
             ],
           ),
         ));
