@@ -1,4 +1,5 @@
 import 'dart:convert'; // JSON converters
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -94,10 +95,19 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
     final config = ref.watch(weatherProvider);
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text("Weather", style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        flexibleSpace: ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
+            child: Container(
+              color: Colors.transparent,
+            ),
+          ),
+        ),
         actions: [
           CupertinoButton(
               child: Text("Forecast"),
@@ -113,15 +123,22 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
         ],
       ),
       body: RefreshIndicator(
+          displacement: 150,
           color: const Color.fromRGBO(100, 100, 100, 100),
           onRefresh: () => _refresh(ref),
-          child: Center(
-            child: config.when(
-                data: (data) => WeatherLoaded(data: data, ref: ref),
-                error: (err, stack) => WeatherError(
-                    message: err.toString(), refresh_: _refresh, ref: ref),
-                loading: () =>
-                    const Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.black),))),
+          // top padding to offset extendBodyBehindAppBar
+          child: Padding(
+            padding: const EdgeInsets.only(top: 60.0),
+            child: Center(
+              child: config.when(
+                  data: (data) => WeatherLoaded(data: data, ref: ref),
+                  error: (err, stack) => WeatherError(
+                      message: err.toString(), refresh_: _refresh, ref: ref),
+                  loading: () => const Center(
+                          child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(Colors.black),
+                      ))),
+            ),
           )),
     );
   }
