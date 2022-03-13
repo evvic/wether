@@ -3,12 +3,15 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'weather_data.g.dart';
 
+// flutter pub run build_runner watch --delete-conflicting-outputs
+
 @JsonSerializable()
 class WeatherData {
   WeatherData({
     required this.tempDay,
     required this.tempMin,
     required this.tempMax,
+    required this.tempFeels,
     required this.windSpeed,
     required this.windDir,
     required this.humidity,
@@ -16,12 +19,12 @@ class WeatherData {
     required this.descMain,
     required this.descDesc,
     required this.icon,
-
   });
 
   int tempDay;
   int tempMin;
   int tempMax;
+  int tempFeels;
 
   double windSpeed;
   int windDir;
@@ -41,7 +44,8 @@ class WeatherData {
         tempDay: (json["main"]["temp"] - 273.15).round(), //celsius
         tempMin: (json["main"]["temp_min"] - 273.15).round(), //celsius
         tempMax: (json["main"]["temp_max"] - 273.15).round(), //celsius
-        windSpeed: json["wind"]["speed"],             //m/s
+        tempFeels: (json["main"]["feels_like"] - 273.15).round(), //celsius
+        windSpeed: json["wind"]["speed"], //m/s
         windDir: json["wind"]["deg"], // degree
         humidity: json["main"]["humidity"], //percent
         pressure: json["main"]["pressure"], //hPa
