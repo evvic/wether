@@ -9,16 +9,14 @@ import 'package:mobile_weather_app/screens/current_weather.dart';
 final container = ProviderContainer();
 
 void main() {
-  runApp(
-    ProviderScope(
-      child:
-        MaterialApp(
-          title: 'Navigation Basics',
-          home: CurrentWeatherOnly(),
-          theme: ThemeData(
-            //colorSchemeSeed:
-          )
-        ),
-    )
-  );
+  runApp(ProviderScope(
+    child: MaterialApp(
+      title: 'Navigation Basics',
+      home: CurrentWeatherOnly(),
+      theme: ThemeData(
+          //colorSchemeSeed:
+          ),
+      debugShowCheckedModeBanner: false,
+    ),
+  ));
 }
