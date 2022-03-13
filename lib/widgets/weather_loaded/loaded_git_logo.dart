@@ -9,7 +9,7 @@ class LoadedGitLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+        padding: const EdgeInsets.all(25.0),
         child: Padding(
           padding: const EdgeInsets.only(left: 120, right: 120),
           child: GestureDetector(
