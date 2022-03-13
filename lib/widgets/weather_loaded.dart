@@ -31,14 +31,21 @@ class WeatherLoaded extends StatelessWidget {
         child: Column(
           children: [
             // container for horizontal icon and temp
-            LoadedHeading(temp: data.tempDay, description: data.descMain, icon: data.icon),
+            LoadedHeading(
+                temp: data.tempDay,
+                description: data.descMain,
+                icon: data.icon),
             // temp min and max card
             LoadedTempExtrema(min: data.tempMin, max: data.tempMax),
             // add long description here!!!
             LoadedLongDesc(description: data.descDesc),
             //humidy and feels like
-            LoadedHumidity(percentage: 50, feelsLike: 33),
-            LoadedWindPresRow(windSpeed: 0.45, windDir: 295, pressure: 1017),
+            LoadedHumidity(
+                percentage: data.humidity, feelsLike: data.tempFeels),
+            LoadedWindPresRow(
+                windSpeed: data.windSpeed,
+                windDir: data.windDir,
+                pressure: data.pressure),
             LoadedApiLogo(),
             LoadedGitLogo(),
           ],

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:core';
 import 'package:mobile_weather_app/main.dart'; // coordinate provider (container)
 // container.read(coordinateNotifier)
 
@@ -68,5 +69,14 @@ Future<void> getLocation(var fetch) async {
         container.read(coordinateNotifier).longitude.toString());
 
     fetch(_locationData.latitude!, _locationData.longitude!);
+  }
+}
+
+bool saveLocation(String loc) {
+  try {
+    container.read(coordinateNotifier).location = loc;
+    return true;
+  } catch (e) {
+    return false;
   }
 }

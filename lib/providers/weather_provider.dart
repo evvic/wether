@@ -52,6 +52,8 @@ final weatherProvider = FutureProvider<WeatherData>((ref) async {
 
     final obj = await json.decode(response.body);
 
+    saveLocation(obj["name"]);
+
     return Future.value(WeatherData.fromJsonOld(obj));
   } on TimeoutException catch (e) {
     return Future.error(e.toString());

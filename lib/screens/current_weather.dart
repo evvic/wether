@@ -32,6 +32,7 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
   String? error_code = null;
   // location
   //static Coordinates coordinates = Coordinates();
+  String appBarTitle = "Weather";
 
   @override
   void initState() {
@@ -88,16 +89,20 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     // create weatherProvider functionality
     // copy forecast methodology
     final config = ref.watch(weatherProvider);
 
+    //final titleEl = ref.watch(coordinateNotifier);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text("Weather", style: TextStyle(color: Colors.black)),
+        title: Text(container.read(coordinateNotifier).location.toString(),
+         style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.transparent,
         elevation: 0,
         flexibleSpace: ClipRect(
