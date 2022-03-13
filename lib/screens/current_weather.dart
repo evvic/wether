@@ -102,7 +102,7 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
         elevation: 0,
         flexibleSpace: ClipRect(
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
             child: Container(
               color: Colors.transparent,
             ),
