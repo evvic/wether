@@ -37,7 +37,7 @@ class WeatherLoaded extends StatelessWidget {
             LoadedLongDesc(description: "overcast clouds"),
             //humidy and feels like
             LoadedHumidity(percentage: 50, feelsLike: 33),
-            LoadedWindPresRow(windSpeed: 0.45, windDir: 123, pressure: 1017),
+            LoadedWindPresRow(windSpeed: 0.45, windDir: 295, pressure: 1017),
             LoadedApiLogo(),
             LoadedGitLogo(),
           ],

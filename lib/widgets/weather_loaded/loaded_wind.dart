@@ -1,8 +1,10 @@
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:dashed_circle/dashed_circle.dart';
 
 class LoadedWind extends StatefulWidget {
   final double windSpeed;
@@ -22,6 +24,13 @@ class _LoadedWind extends State<LoadedWind> {
   double windSpeed;
   int windDir;
 
+  /* WIDGET CONSTANTS */
+  double wCont = 60; //inner tranparent container
+  double hCont = 60; //inner tranparent container
+
+  late double xIcon;
+  late double yIcon;
+
   _LoadedWind(Key? key, this.windSpeed, this.windDir);
 
   @override
@@ -29,9 +38,14 @@ class _LoadedWind extends State<LoadedWind> {
     super.initState();
 
     setState(() {
-      //col = getColor();
-      //humidityLevel = getHumidityLevel();
+      xIcon = (wCont/2 + 10)* cos(windDir/180);
+      yIcon = (hCont/2 + 10)* sin(windDir/180);
     });
+  }
+
+  toKmh(double ws) {
+    int ret = 4;
+    return ret;
   }
 
   //static final hLevelStyle = TextStyle(fontSize: 18, color: col);
@@ -59,7 +73,7 @@ class _LoadedWind extends State<LoadedWind> {
                 padding: const EdgeInsets.only(left: 5.0, right: 5.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
+                  children: [
                     const Icon(
                       Icons.air_rounded,
                       color: Colors.blueGrey,
@@ -71,34 +85,74 @@ class _LoadedWind extends State<LoadedWind> {
                   ],
                 ),
               ),
+              // COMPASS UI
               Padding(
-                  padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-                  child: Stack(
-                    children: [
-                      const Icon(Icons.location_searching_rounded,
-                          color: Colors.blueGrey, size: 100),
-                      RotatedBox(
-                        quarterTurns: 1,
-                        child: Icon(
-                          Icons.details,
-                          color: Colors.black,
-                        ),
+                padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                child: Stack(alignment: Alignment.center, children: [
+                  DashedCircle(
+                      dashes: 100,
+                      strokeWidth: 10,
+                      color: Colors.black,
+                      child: AspectRatio(
+                          aspectRatio: 1,
+                          //child: Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            // NORTH
+                            children: [
+                              CardinalCharacter(char: 'N'),
+                              // WEST, MIDDLE, EAST
+                              Center(
+                                  child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CardinalCharacter(char: 'W'),
+                                  // keep container here to maintain structure of
+                                  // cardinal characters
+                                  Container(
+                                    margin: const EdgeInsets.all(10.0),
+                                    decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        shape: BoxShape.circle),
+                                    //constraints: BoxConstraints.expand(),
+                                    //color: Colors.blue,
+                                    width: wCont,
+                                    height: hCont,
+                                  ),
+                                  CardinalCharacter(char: 'E'),
+                                ],
+                              )),
+                              CardinalCharacter(char: 'S'),
+                            ],
+                          ))),
+                  Container(
+                    margin: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                        color: Colors.deepOrangeAccent,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.blueAccent, width: 3),
                       ),
-                    ],
-                  )),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    "960",
-                    style: subZtyle,
+                    //constraints: BoxConstraints.expand(),
+                    //color: Colors.blue,
+                    width: 80,
+                    height: 80,
                   ),
-                  Text(
-                    "1060",
-                    style: subZtyle,
+                  Text(toKmh(windSpeed).toString()),
+                  // Translate arrow icon to point and be on the right side
+                  Transform.translate(
+                    offset: Offset((wCont/1.2) * cos(pi*(windDir-90)/180.0),
+                      (hCont/1.2) * sin(pi*(windDir-90)/180.0)),
+                    child: Transform.rotate(
+                      angle: pi * (windDir / 180.0),
+                      child: Icon(
+                        Icons.details_rounded,
+                        size: 30,),
+                    ),
                   )
-                ],
+                  //)
+                ]),
               )
             ],
           ),
@@ -108,56 +162,17 @@ class _LoadedWind extends State<LoadedWind> {
   }
 }
 
-class PressurePainter extends CustomPainter {
-  int pressure;
+class CardinalCharacter extends StatelessWidget {
+  final String char;
 
-  PressurePainter(this.pressure);
+  CardinalCharacter({required this.char});
 
-  /* CONSTANTS */
-  double strokeWidth = 8;
-  double baseAngle = 0;     //(5 * pi / 4) - (pi / 2);
-  double endAngle = 2 * pi; //2 * pi * .75;
+  static const cStyle = TextStyle(
+      fontSize: 12, color: Colors.black45, fontWeight: FontWeight.bold);
 
   @override
-  void paint(Canvas canvas, Size size) {
-    final compass = Paint()
-      ..color = Colors.teal
-      ..strokeWidth = strokeWidth
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke;
-    final complete = Paint()
-      ..color = Colors.tealAccent
-      ..strokeWidth = strokeWidth
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke;
-
-    Offset center = Offset(size.width / 2, size.height / 2);
-    double radius = min(size.width / 2, size.height / 2);
-
-    // check bounds of barometer
-    pressure = max(pressure, 960);
-    pressure = min(pressure, 1060);
-
-    // using barameter min 960 and max 1060
-    double arcAngle = 2 * pi * ((pressure - 960) / 100);
-
-    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), baseAngle,
-        endAngle, false, compass);
-    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), baseAngle,
-        arcAngle, false, complete);
-
-    //final arc1 = Path();
-    //arc1.moveTo(0, size.height * 0.6);
-    //arc1.arcToPoint(Offset(size.width, size.height * 0.6),
-    //    radius: Radius.circular(4));
-
-    //canvas.drawPath(arc1, paint);
-  }
-
-  //double sweepAngle() => 0.8 * 2 / 3 * math.pi;
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.all(1.0), child: Text(char, style: cStyle));
   }
 }
