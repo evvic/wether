@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_weather_app/model/weather_data.dart';
 import 'package:mobile_weather_app/services/forecast_services.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_api_logo.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_git_logo.dart';
@@ -13,7 +14,7 @@ import 'package:mobile_weather_app/widgets/weather_loaded/loaded_temp_extrema.da
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_wind_pres_row.dart';
 
 class WeatherLoaded extends StatelessWidget {
-  var data;
+  WeatherData data;
   WidgetRef ref;
 
   WeatherLoaded({required this.data, required this.ref});
@@ -30,11 +31,11 @@ class WeatherLoaded extends StatelessWidget {
         child: Column(
           children: [
             // container for horizontal icon and temp
-            LoadedHeading(temp: 25, description: "Cloudy", icon: "10d"),
+            LoadedHeading(temp: data.tempDay, description: data.descMain, icon: data.icon),
             // temp min and max card
-            LoadedTempExtrema(min: 15, max: 34),
+            LoadedTempExtrema(min: data.tempMin, max: data.tempMax),
             // add long description here!!!
-            LoadedLongDesc(description: "overcast clouds"),
+            LoadedLongDesc(description: data.descDesc),
             //humidy and feels like
             LoadedHumidity(percentage: 50, feelsLike: 33),
             LoadedWindPresRow(windSpeed: 0.45, windDir: 295, pressure: 1017),
