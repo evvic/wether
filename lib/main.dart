@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 //import 'package:mobile_weather_app/providers/coordinate_provider.dart';
-import 'package:wether/screens/current_weather.dart';
+import '/screens/current_weather.dart';
 
 // container for coordinates
 final container = ProviderContainer();
