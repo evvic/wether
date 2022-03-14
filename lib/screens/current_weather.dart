@@ -83,12 +83,13 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
   }
 
   // to refresh data
-  _refresh(WidgetRef ref) async {
+  _refresh(WidgetRef ref, var fun) async {
     try {
       ref.refresh(weatherProvider);
       return await ref.read(weatherProvider.future);
     } catch (e) {
-      print(e.toString());
+      fun("Error: " + errorNameToClass(e.toString()).suggestion);
+      //print(e.toString());
     }
   }
 
@@ -104,6 +105,8 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
     }
   }
 
+  final snackBar = const SnackBar(content: Text("Error: cannot connect to internet"));
+
   @override
   Widget build(BuildContext context) {
     // create weatherProvider functionality
@@ -116,30 +119,41 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
       extendBodyBehindAppBar: true,
       appBar: appBarUni(context, inForecast: false),
       body: RefreshIndicator(
-          displacement: 150,
-          color: const Color.fromRGBO(100, 100, 100, 100),
-          onRefresh: () => _refresh(ref),
-          // top padding to offset extendBodyBehindAppBar
-          //child: Padding(
-          //  padding: const EdgeInsets.only(top: 60.0),
-            //child: Center(
-              child: config.when(
-                  data: (data) => WeatherLoaded(
-                      data: data, ref: ref, saved: copySave(data)),
-                  error: (err, stack) => ErrorPage(
-                      error: errorNameToClass(err.toString()), refresh_: _refresh, ref: ref),
-                  loading: () =>
-                    (savedData != null)?
-                    WeatherLoaded(data: savedData!, ref: ref, saved: false)
-                    :
-                    const Center(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(Colors.black),
-                      )
-                    )),
-            //),
-          //)
-        ),
+        displacement: 150,
+        color: const Color.fromRGBO(100, 100, 100, 100),
+        onRefresh: () => _refresh(
+            ref,
+            (error) =>
+                {ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(error.toString())))}),
+        // top padding to offset extendBodyBehindAppBar
+        //child: Padding(
+        //  padding: const EdgeInsets.only(top: 60.0),
+        //child: Center(
+        child: config.when(
+            // LOADED PAGE.
+            data: (data) =>
+                WeatherLoaded(data: data, ref: ref, saved: copySave(data)),
+            // ERROR PAGE. If previous state is saved then continue to show old data
+            // but show a Snack bar saying error message
+            error: (err, stack) => (savedData != null)
+                ? WeatherLoaded(data: savedData!, ref: ref, saved: false)
+                : ErrorPage(
+                    error: errorNameToClass(err.toString()),
+                    refresh_: _refresh,
+                    ref: ref),
+            // LOADING PAGE. If previous state is saved then continue to show old data
+            // while refresh indicator continues to show
+            loading: () => (savedData != null)
+                ? WeatherLoaded(data: savedData!, ref: ref, saved: false)
+                : const Center(
+                    child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(Colors.black),
+                  ))),
+        //),
+        //)
+      ),
     );
   }
 }

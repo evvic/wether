@@ -54,7 +54,7 @@ class ErrorPage extends StatelessWidget {
                         child: CupertinoButton(
                             child: const Text("refresh"),
                             // maybe dont need arrow function
-                            onPressed: () => refresh_(ref)),
+                            onPressed: () => refresh_(ref, () => print("button refresh"))),
                       )
                     ]))));
   }

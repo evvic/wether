@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_weather_app/model/weather_data.dart';
 import 'package:mobile_weather_app/providers/coordinate_provider.dart';
+import 'package:mobile_weather_app/services/error_services.dart';
 import 'package:mobile_weather_app/services/forecast_services.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_api_logo.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_git_logo.dart';
@@ -20,8 +21,10 @@ class WeatherLoaded extends StatelessWidget {
   WeatherData data;
   WidgetRef ref;
   bool saved;
+  ErrorException? error;
 
-  WeatherLoaded({required this.data, required this.ref, required this.saved});
+  WeatherLoaded(
+      {required this.data, required this.ref, required this.saved, this.error});
 
   static const IconData arrow_upward =
       IconData(0xe0a0, fontFamily: 'MaterialIcons');
