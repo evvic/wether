@@ -69,31 +69,27 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
     //final data1 = config.asData;
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: appBarUni(context, inForecast: true),
-      body: RefreshIndicator(
-        displacement: 150,
-        color: const Color.fromRGBO(100, 100, 100, 100),
-        onRefresh: () => _refresh(ref),
-        child: Padding(
-            padding: const EdgeInsets.only(top: 1), //(top: 100.0),
+        extendBodyBehindAppBar: true,
+        appBar: appBarUni(context, inForecast: true),
+        body: RefreshIndicator(
+            displacement: 150,
+            color: const Color.fromRGBO(100, 100, 100, 100),
+            onRefresh: () => _refresh(ref),
             child: Center(
               child: config.when(
-                  data: (data) => ForecastLoaded(data: data, ref: ref, saved: copySave(data)),
+                  data: (data) => ForecastLoaded(
+                      data: data, ref: ref, saved: copySave(data)),
                   error: (err, stack) => WeatherError(
-                      error: errorNameToClass(err.toString()), refresh_: _refresh, ref: ref),
-                  loading: () =>
-                    (savedData == null)?
-                      const Center(child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(Colors.black),)
-                      ) :
-                      ForecastLoaded(data: savedData!, ref: ref, saved: false)
-                ),
-            )
-          )
-        ),
-    );
-
-    //loading forecast data
+                      error: errorNameToClass(err.toString()),
+                      refresh_: _refresh,
+                      ref: ref),
+                  loading: () => (savedData == null)
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(Colors.black),
+                        ))
+                      : ForecastLoaded(
+                          data: savedData!, ref: ref, saved: false)),
+            )));
   }
 }
