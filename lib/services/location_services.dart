@@ -1,10 +1,7 @@
-import 'dart:convert';
 import 'dart:core';
-import 'package:mobile_weather_app/main.dart'; // coordinate provider (container)
-// container.read(coordinateNotifier)
-
+import 'package:wether/main.dart'; // coordinate provider (container)
 import 'package:location/location.dart';
-import 'package:mobile_weather_app/providers/coordinate_provider.dart';
+import 'package:wether/providers/coordinate_provider.dart';
 
 // getLocationData()
 // checks for gps service to be enabled and user permission granted

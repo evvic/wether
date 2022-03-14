@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_weather_app/model/forecast_day.dart';
-import 'package:mobile_weather_app/services/forecast_services.dart';
-import 'package:mobile_weather_app/widgets/forecast_loaded/loaded_day_icon.dart';
+import 'package:wether/model/forecast_day.dart';
+import 'package:wether/services/forecast_services.dart';
+import 'package:wether/widgets/forecast_loaded/loaded_day_icon.dart';
 
 class LoadedCard extends StatelessWidget {
   ForecastDayData data;

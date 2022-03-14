@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_weather_app/services/error_services.dart';
+import 'package:wether/services/error_services.dart';
 
 class ErrorPage extends StatelessWidget {
   ErrorException error;

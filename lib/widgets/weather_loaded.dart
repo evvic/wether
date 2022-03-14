@@ -3,17 +3,17 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_weather_app/model/weather_data.dart';
-import 'package:mobile_weather_app/providers/coordinate_provider.dart';
-import 'package:mobile_weather_app/services/error_services.dart';
-import 'package:mobile_weather_app/services/forecast_services.dart';
-import 'package:mobile_weather_app/widgets/weather_loaded/loaded_api_logo.dart';
-import 'package:mobile_weather_app/widgets/weather_loaded/loaded_git_logo.dart';
-import 'package:mobile_weather_app/widgets/weather_loaded/loaded_heading.dart';
-import 'package:mobile_weather_app/widgets/weather_loaded/loaded_humidity.dart';
-import 'package:mobile_weather_app/widgets/weather_loaded/loaded_long_desc.dart';
-import 'package:mobile_weather_app/widgets/weather_loaded/loaded_temp_extrema.dart';
-import 'package:mobile_weather_app/widgets/weather_loaded/loaded_wind_pres_row.dart';
+import 'package:wether/model/weather_data.dart';
+import 'package:wether/providers/coordinate_provider.dart';
+import 'package:wether/services/error_services.dart';
+import 'package:wether/services/forecast_services.dart';
+import 'package:wether/widgets/weather_loaded/loaded_api_logo.dart';
+import 'package:wether/widgets/weather_loaded/loaded_git_logo.dart';
+import 'package:wether/widgets/weather_loaded/loaded_heading.dart';
+import 'package:wether/widgets/weather_loaded/loaded_humidity.dart';
+import 'package:wether/widgets/weather_loaded/loaded_long_desc.dart';
+import 'package:wether/widgets/weather_loaded/loaded_temp_extrema.dart';
+import 'package:wether/widgets/weather_loaded/loaded_wind_pres_row.dart';
 
 import '../main.dart';
 

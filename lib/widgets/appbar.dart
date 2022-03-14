@@ -3,9 +3,9 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_weather_app/providers/coordinate_provider.dart';
-import 'package:mobile_weather_app/screens/forecast.dart';
-import 'package:mobile_weather_app/services/forecast_services.dart';
+import 'package:wether/providers/coordinate_provider.dart';
+import 'package:wether/screens/forecast.dart';
+import 'package:wether/services/forecast_services.dart';
 
 import '../main.dart';
 

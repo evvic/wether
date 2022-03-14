@@ -1,20 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-//import 'dart:js';
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:location/location.dart';
-import 'package:mobile_weather_app/model/weather_data.dart';
-import 'package:mobile_weather_app/services/error_services.dart';
-import 'package:mobile_weather_app/services/get_api_key.dart';
-import 'package:mobile_weather_app/services/location_services.dart';
-import 'package:mobile_weather_app/main.dart';
-import 'package:mobile_weather_app/providers/coordinate_provider.dart';
+import 'package:wether/model/weather_data.dart';
+import 'package:wether/services/error_services.dart';
+import 'package:wether/services/get_api_key.dart';
+import 'package:wether/services/location_services.dart';
+import 'package:wether/main.dart';
+import 'package:wether/providers/coordinate_provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile_weather_app/widgets/weather_loaded.dart';
 
 // instantiate the provider class
 //final forecastNotifier = ChangeNotifierProvider<ForecastProvider>((ref) {
@@ -58,7 +53,7 @@ final weatherProvider = FutureProvider<WeatherData>((ref) async {
     saveLocation(obj["name"]);
 
     return Future.value(WeatherData.fromJsonOld(obj));
-    
+
   } on TimeoutException catch (e) {
     return Future.error(TimeoutException().name);
   } on SocketException catch (e) {

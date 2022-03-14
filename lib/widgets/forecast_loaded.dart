@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_weather_app/model/forecast_day.dart';
-import 'package:mobile_weather_app/services/forecast_services.dart';
-import 'package:mobile_weather_app/widgets/forecast_loaded/loaded_card.dart';
+import 'package:wether/model/forecast_day.dart';
+import 'package:wether/services/forecast_services.dart';
+import 'package:wether/widgets/forecast_loaded/loaded_card.dart';
 
 class ForecastLoaded extends StatelessWidget {
   List<ForecastDayData> data;
