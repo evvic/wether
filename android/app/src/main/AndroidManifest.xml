@@ -11,7 +11,7 @@
     </queries>
 
    <application
-        android:label="mobile_weather_app"
+        android:label="wether"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
