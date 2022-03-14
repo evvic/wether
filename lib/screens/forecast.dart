@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:mobile_weather_app/providers/forecast_provider.dart';
 import 'package:mobile_weather_app/widgets/appbar.dart';
-import 'package:mobile_weather_app/widgets/forecast_data.dart';
+import 'package:mobile_weather_app/widgets/forecast_loaded.dart';
 import 'package:mobile_weather_app/widgets/forecast_error.dart';
 
 class WeatherForecastScreen extends ConsumerStatefulWidget {
@@ -77,13 +77,17 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
       body: RefreshIndicator(
           //color: const Color.fromRGBO(100, 100, 100, 100),
           onRefresh: () => _refresh(ref),
-          child: Center(
-            child: config.when(
-                data: (data) => ForecastData(data: data, ref: ref),
-                error: (err, stack) => ForecastError(message: err.toString(), refresh_: _refresh, ref: ref),
-                loading: () =>
-                    const Center(child: CircularProgressIndicator())),
-          )),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 1),//(top: 100.0),
+            child: Center(
+              child: config.when(
+                  data: (data) => ForecastLoaded(data: data, ref: ref),
+                  error: (err, stack) => ForecastError(message: err.toString(), refresh_: _refresh, ref: ref),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator())),
+            )
+          )
+        ),
     );
 
     //loading forecast data

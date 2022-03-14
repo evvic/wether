@@ -12,7 +12,7 @@ import 'package:mobile_weather_app/services/location_services.dart';
 import 'package:mobile_weather_app/main.dart';
 import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile_weather_app/widgets/forecast_data.dart';
+import 'package:mobile_weather_app/widgets/forecast_loaded.dart';
 
 class ForecastProvider {
   var forecast_item;
