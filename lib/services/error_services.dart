@@ -57,7 +57,7 @@ class TimeoutException extends ErrorException {
   String get name => "TimeoutException";
 
   @override
-  String get message => "Timed out when connecting to the API";
+  String get message => "Error: Timed out when connecting to the API";
 
   @override
   String get suggestion => "Try checking your internet connection";
@@ -85,7 +85,7 @@ class BadResponse extends ErrorException {
   String get name => "BadResponse";
 
   @override
-  String get message => "Retrieved a bad response from the API";
+  String get message => "Error: Retrieved a bad response from the API";
 
   @override
   String get suggestion => "Try refreshing and giving location permision";

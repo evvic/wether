@@ -14,7 +14,7 @@ import 'package:mobile_weather_app/screens/forecast.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_weather_app/widgets/appbar.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded.dart';
-import 'package:mobile_weather_app/widgets/weather_error.dart';
+import 'package:mobile_weather_app/widgets/error_page.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:location/location.dart';
 
@@ -126,7 +126,7 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
               child: config.when(
                   data: (data) => WeatherLoaded(
                       data: data, ref: ref, saved: copySave(data)),
-                  error: (err, stack) => WeatherError(
+                  error: (err, stack) => ErrorPage(
                       error: errorNameToClass(err.toString()), refresh_: _refresh, ref: ref),
                   loading: () =>
                     (savedData != null)?

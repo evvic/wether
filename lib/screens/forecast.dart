@@ -12,8 +12,7 @@ import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:mobile_weather_app/providers/forecast_provider.dart';
 import 'package:mobile_weather_app/widgets/appbar.dart';
 import 'package:mobile_weather_app/widgets/forecast_loaded.dart';
-import 'package:mobile_weather_app/widgets/forecast_error.dart';
-import 'package:mobile_weather_app/widgets/weather_error.dart';
+import 'package:mobile_weather_app/widgets/error_page.dart';
 
 class WeatherForecastScreen extends ConsumerStatefulWidget {
   const WeatherForecastScreen({Key? key}) : super(key: key);
@@ -79,7 +78,7 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
               child: config.when(
                   data: (data) => ForecastLoaded(
                       data: data, ref: ref, saved: copySave(data)),
-                  error: (err, stack) => WeatherError(
+                  error: (err, stack) => ErrorPage(
                       error: errorNameToClass(err.toString()),
                       refresh_: _refresh,
                       ref: ref),
