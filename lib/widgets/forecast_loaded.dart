@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_weather_app/model/forecast_day.dart';
 import 'package:mobile_weather_app/services/forecast_services.dart';
+import 'package:mobile_weather_app/widgets/forecast_loaded/loaded_card.dart';
 
 class ForecastLoaded extends StatelessWidget {
   List<ForecastDayData> data;
@@ -18,19 +19,7 @@ class ForecastLoaded extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       itemCount: data.length,
       itemBuilder: (BuildContext context, int index) {
-        return Card(
-          child: Column(
-            children: <Widget>[
-              ListTile(
-                title: Text(forecastDay(index) +
-                    ', ' +
-                    data[index].descDesc),
-                subtitle: Text(
-                    data[index].tempDay.toString() + '°C '),
-              )
-            ],
-          ),
-        );
+        return LoadedCard(index: index, data: data[index]);
       },
       separatorBuilder: (BuildContext context, int index) =>
           const Divider(

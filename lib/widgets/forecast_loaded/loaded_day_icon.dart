@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_weather_app/model/forecast_day.dart';
+import 'package:mobile_weather_app/services/forecast_services.dart';
+
+class LoadedDayIcon extends StatelessWidget {
+  String longDesc;
+  String icon;
+  int index;
+
+  LoadedDayIcon({Key? key, required this.longDesc, required this.icon, required this.index})
+      : super(key: key);
+
+  static const dayNameStyle = TextStyle(
+      fontSize: 18, color: Colors.black87, fontWeight: FontWeight.bold);
+  static const defaultDayNameStyle =
+      TextStyle(fontSize: 16, color: Colors.black87);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+      Image.network(
+        "http://openweathermap.org/img/wn/${icon}@2x.png",
+        scale: 1.6,
+      ),
+      RichText(
+        text: TextSpan(style: defaultDayNameStyle, children: <TextSpan>[
+          TextSpan(text: forecastDay(index), style: dayNameStyle),
+          TextSpan(
+            text: ', ${longDesc}',
+          ),
+          TextSpan(text: "."),
+        ]),
+      ),
+    ]);
+  }
+}
