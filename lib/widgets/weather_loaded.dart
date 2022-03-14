@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_weather_app/model/weather_data.dart';
+import 'package:mobile_weather_app/providers/coordinate_provider.dart';
 import 'package:mobile_weather_app/services/forecast_services.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_api_logo.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_git_logo.dart';
@@ -13,11 +14,14 @@ import 'package:mobile_weather_app/widgets/weather_loaded/loaded_long_desc.dart'
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_temp_extrema.dart';
 import 'package:mobile_weather_app/widgets/weather_loaded/loaded_wind_pres_row.dart';
 
+import '../main.dart';
+
 class WeatherLoaded extends StatelessWidget {
   WeatherData data;
   WidgetRef ref;
+  bool saved;
 
-  WeatherLoaded({required this.data, required this.ref});
+  WeatherLoaded({required this.data, required this.ref, required this.saved});
 
   static const IconData arrow_upward =
       IconData(0xe0a0, fontFamily: 'MaterialIcons');
@@ -48,6 +52,9 @@ class WeatherLoaded extends StatelessWidget {
                 pressure: data.pressure),
             LoadedApiLogo(),
             LoadedGitLogo(),
+            Text(saved.toString()),
+            Text(container.read(coordinateNotifier).latitude.toString()),
+            Text(container.read(coordinateNotifier).longitude.toString()),
           ],
         ));
     //Text(data.descMain))

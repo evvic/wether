@@ -33,7 +33,7 @@ final weatherProvider = FutureProvider<WeatherData>((ref) async {
 
     // pull save coordinates locally
     double? lat = container.read(coordinateNotifier).latitude;
-    double? long = container.read(coordinateNotifier).latitude;
+    double? long = container.read(coordinateNotifier).longitude;
 
     if (_locationData == null && lat == null && long == null) {
       throw ErrorDescription("location services were not aquired.");
@@ -41,6 +41,9 @@ final weatherProvider = FutureProvider<WeatherData>((ref) async {
 
     Uri url = Uri.parse(
         "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$long&appid=${get_api_key()}");
+
+    print("URL for fetching weather: ");
+    print(url);
 
     final response = await http.get(url).timeout(const Duration(seconds: 5));
 

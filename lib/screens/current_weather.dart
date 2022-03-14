@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_weather_app/model/weather_data.dart';
 import 'package:mobile_weather_app/providers/weather_provider.dart';
 import 'package:mobile_weather_app/services/get_api_key.dart'; //contains api key
 import 'package:mobile_weather_app/services/location_services.dart';
@@ -29,7 +30,7 @@ class CurrentWeatherOnly extends ConsumerStatefulWidget {
 }
 
 class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
-  var weather_data;
+  WeatherData? savedData;
   String? error_code = null;
   // location
   //static Coordinates coordinates = Coordinates();
@@ -69,7 +70,7 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
         var weatherData = json.decode(response.body);
 
         setState(() {
-          weather_data = weatherData;
+          savedData = weatherData;
         });
       }
     } catch (e) {
@@ -90,6 +91,17 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
     }
   }
 
+  copySave(var w) {
+    try {
+      setState(() {
+        savedData = w;
+      });
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,13 +123,19 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
             padding: const EdgeInsets.only(top: 60.0),
             child: Center(
               child: config.when(
-                  data: (data) => WeatherLoaded(data: data, ref: ref),
+                  data: (data) => WeatherLoaded(
+                      data: data, ref: ref, saved: copySave(data)),
                   error: (err, stack) => WeatherError(
                       message: err.toString(), refresh_: _refresh, ref: ref),
-                  loading: () => const Center(
-                          child: CircularProgressIndicator(
+                  loading: () =>
+                    (savedData != null)?
+                    WeatherLoaded(data: savedData!, ref: ref, saved: false)
+                    :
+                    const Center(
+                      child: CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation(Colors.black),
-                      ))),
+                      )
+                    )),
             ),
           )),
     );
