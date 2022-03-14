@@ -15,6 +15,7 @@ class WeatherError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
+      //heightFactor: double.infinity,
         child: Padding(
             padding: const EdgeInsets.all(25),
             child: Padding(

@@ -120,9 +120,9 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
           color: const Color.fromRGBO(100, 100, 100, 100),
           onRefresh: () => _refresh(ref),
           // top padding to offset extendBodyBehindAppBar
-          child: Padding(
-            padding: const EdgeInsets.only(top: 60.0),
-            child: Center(
+          //child: Padding(
+          //  padding: const EdgeInsets.only(top: 60.0),
+            //child: Center(
               child: config.when(
                   data: (data) => WeatherLoaded(
                       data: data, ref: ref, saved: copySave(data)),
@@ -137,8 +137,9 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
                         valueColor: AlwaysStoppedAnimation(Colors.black),
                       )
                     )),
-            ),
-          )),
+            //),
+          //)
+        ),
     );
   }
 }

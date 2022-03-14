@@ -11,7 +11,8 @@ class LoadedHeading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
+    return Padding (padding: const EdgeInsets.only(top: 50.0),
+      child: AspectRatio(
         aspectRatio: 4 / 2,
         child: Row(
           children: [
@@ -71,6 +72,8 @@ class LoadedHeading extends StatelessWidget {
                 //color: Colors.green,
                 )
           ],
-        ));
+        )
+      )
+    );
   }
 }
