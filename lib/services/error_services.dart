@@ -63,7 +63,7 @@ class TimeoutException extends ErrorException {
   String get suggestion => "Try checking your internet connection";
 
   @override
-  IconData get icon => Icons.public_off_rounded;
+  IconData get icon => Icons.cloud_off_rounded;
 }
 
 class LocationAccess extends ErrorException {
@@ -77,7 +77,7 @@ class LocationAccess extends ErrorException {
   String get suggestion => "Try refreshing and giving location permision";
 
   @override
-  IconData get icon => Icons.public_off_rounded;
+  IconData get icon => Icons.location_disabled_rounded;
 }
 
 class BadResponse extends ErrorException {
@@ -91,5 +91,5 @@ class BadResponse extends ErrorException {
   String get suggestion => "Try refreshing and giving location permision";
 
   @override
-  IconData get icon => Icons.public_off_rounded;
+  IconData get icon => Icons.cloud_off_rounded;
 }
