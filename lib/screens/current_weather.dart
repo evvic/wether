@@ -89,7 +89,6 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
       return await ref.read(weatherProvider.future);
     } catch (e) {
       fun("Error: " + errorNameToClass(e.toString()).suggestion);
-      //print(e.toString());
     }
   }
 

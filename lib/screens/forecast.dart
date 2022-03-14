@@ -38,12 +38,12 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
   }
 
   // to refresh data
-  _refresh(WidgetRef ref) async {
+  _refresh(WidgetRef ref, var fun) async {
     try {
       ref.refresh(forecastProvider);
       return await ref.read(forecastProvider.future);
     } catch (e) {
-      print(e.toString());
+      fun("Error: " + errorNameToClass(e.toString()).suggestion);
     }
   }
 
@@ -73,15 +73,28 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
         body: RefreshIndicator(
             displacement: 150,
             color: const Color.fromRGBO(100, 100, 100, 100),
-            onRefresh: () => _refresh(ref),
+            onRefresh: () => _refresh(
+                ref,
+                (error) => {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(error.toString())))
+                    }),
             child: Center(
               child: config.when(
+                  // LOADED PAGE.
                   data: (data) => ForecastLoaded(
                       data: data, ref: ref, saved: copySave(data)),
-                  error: (err, stack) => ErrorPage(
-                      error: errorNameToClass(err.toString()),
-                      refresh_: _refresh,
-                      ref: ref),
+                  // ERROR PAGE. If previous state is saved then continue to show old data
+                  // but show a Snack bar saying error message
+                  error: (err, stack) => (savedData == null)
+                      ? ErrorPage(
+                          error: errorNameToClass(err.toString()),
+                          refresh_: _refresh,
+                          ref: ref)
+                      : ForecastLoaded(
+                          data: savedData!, ref: ref, saved: false),
+                  // LOADING PAGE. If previous state is saved then continue to show old data
+                  // while refresh indicator continues to show
                   loading: () => (savedData == null)
                       ? const Center(
                           child: CircularProgressIndicator(
