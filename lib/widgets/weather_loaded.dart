@@ -52,9 +52,6 @@ class WeatherLoaded extends StatelessWidget {
                 pressure: data.pressure),
             LoadedApiLogo(),
             LoadedGitLogo(),
-            Text(saved.toString()),
-            Text(container.read(coordinateNotifier).latitude.toString()),
-            Text(container.read(coordinateNotifier).longitude.toString()),
           ],
         ));
     //Text(data.descMain))
