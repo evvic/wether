@@ -5,6 +5,8 @@ import 'package:wether/model/forecast_day.dart';
 import 'package:wether/services/forecast_services.dart';
 import 'package:wether/widgets/forecast_loaded/loaded_day_icon.dart';
 
+import 'loaded_temperature.dart';
+
 class LoadedCard extends StatelessWidget {
   ForecastDayData data;
   int index;
@@ -35,9 +37,8 @@ class LoadedCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               LoadedDayIcon(longDesc: data.descDesc, icon: data.icon, index: index),
-
-
-            ],
+              LoadedTemperature(tempDay: data.tempDay, tempMin: data.tempMin, tempMax: data.tempMax, index: index,)
+              ],
           ),
         )
       )
