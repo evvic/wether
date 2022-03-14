@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_weather_app/model/forecast_day.dart';
+import 'package:mobile_weather_app/services/error_services.dart';
 import 'package:mobile_weather_app/services/forecast_services.dart';
 import 'package:mobile_weather_app/services/get_api_key.dart';
 import 'package:mobile_weather_app/services/location_services.dart';
@@ -12,6 +13,7 @@ import 'package:mobile_weather_app/providers/forecast_provider.dart';
 import 'package:mobile_weather_app/widgets/appbar.dart';
 import 'package:mobile_weather_app/widgets/forecast_loaded.dart';
 import 'package:mobile_weather_app/widgets/forecast_error.dart';
+import 'package:mobile_weather_app/widgets/weather_error.dart';
 
 class WeatherForecastScreen extends ConsumerStatefulWidget {
   const WeatherForecastScreen({Key? key}) : super(key: key);
@@ -78,8 +80,8 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
             child: Center(
               child: config.when(
                   data: (data) => ForecastLoaded(data: data, ref: ref, saved: copySave(data)),
-                  error: (err, stack) => ForecastError(
-                      message: err.toString(), refresh_: _refresh, ref: ref),
+                  error: (err, stack) => WeatherError(
+                      error: errorNameToClass(err.toString()), refresh_: _refresh, ref: ref),
                   loading: () =>
                     (savedData == null)?
                       const Center(child: CircularProgressIndicator(

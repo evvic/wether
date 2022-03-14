@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:location/location.dart';
 import 'package:mobile_weather_app/model/weather_data.dart';
+import 'package:mobile_weather_app/services/error_services.dart';
 import 'package:mobile_weather_app/services/get_api_key.dart';
 import 'package:mobile_weather_app/services/location_services.dart';
 import 'package:mobile_weather_app/main.dart';
@@ -35,8 +36,9 @@ final weatherProvider = FutureProvider<WeatherData>((ref) async {
     double? lat = container.read(coordinateNotifier).latitude;
     double? long = container.read(coordinateNotifier).longitude;
 
-    if (_locationData == null && lat == null && long == null) {
-      throw ErrorDescription("location services were not aquired.");
+    if (_locationData == null || lat == null && long == null) {
+      //throw ErrorDescription("location services were not aquired.");
+      return Future.error(LocationAccess().name);
     }
 
     Uri url = Uri.parse(
@@ -48,8 +50,7 @@ final weatherProvider = FutureProvider<WeatherData>((ref) async {
 
     if (response.statusCode != 200) {
       // bad response
-      // return
-      return Future.error(response.statusCode.toString());
+      return Future.error(BadResponse().name);
     }
 
     final obj = await json.decode(response.body);
@@ -57,17 +58,15 @@ final weatherProvider = FutureProvider<WeatherData>((ref) async {
     saveLocation(obj["name"]);
 
     return Future.value(WeatherData.fromJsonOld(obj));
+    
   } on TimeoutException catch (e) {
-    return Future.error(e.toString());
+    return Future.error(TimeoutException().name);
   } on SocketException catch (e) {
-    return Future.error(e.toString());
+    return Future.error(SocketException().name);
   } catch (e) {
     print("inside forecastProvider catch");
-    return Future.error(e.toString());
-    //throw AsyncValue.error(e.toString());
+    return Future.error(UntrackedException().name);
   }
-
-  //return Future.value(ret);
 });
 
 /*class FetchForecast {

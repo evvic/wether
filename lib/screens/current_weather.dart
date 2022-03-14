@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_weather_app/model/weather_data.dart';
 import 'package:mobile_weather_app/providers/weather_provider.dart';
+import 'package:mobile_weather_app/services/error_services.dart';
 import 'package:mobile_weather_app/services/get_api_key.dart'; //contains api key
 import 'package:mobile_weather_app/services/location_services.dart';
 import 'package:mobile_weather_app/providers/coordinate_provider.dart';
@@ -126,7 +127,7 @@ class _CurrentWeatherOnly extends ConsumerState<CurrentWeatherOnly> {
                   data: (data) => WeatherLoaded(
                       data: data, ref: ref, saved: copySave(data)),
                   error: (err, stack) => WeatherError(
-                      message: err.toString(), refresh_: _refresh, ref: ref),
+                      error: errorNameToClass(err.toString()), refresh_: _refresh, ref: ref),
                   loading: () =>
                     (savedData != null)?
                     WeatherLoaded(data: savedData!, ref: ref, saved: false)
