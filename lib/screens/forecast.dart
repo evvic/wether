@@ -2,6 +2,7 @@ import 'dart:convert'; //json
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_weather_app/model/forecast_day.dart';
 import 'package:mobile_weather_app/services/forecast_services.dart';
 import 'package:mobile_weather_app/services/get_api_key.dart';
 import 'package:mobile_weather_app/services/location_services.dart';
@@ -20,6 +21,8 @@ class WeatherForecastScreen extends ConsumerStatefulWidget {
 }
 
 class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
+  List<ForecastDayData>? savedData;
+
   @override
   void initState() {
     super.initState();
@@ -33,26 +36,6 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
     //getLocation(fetchWeatherForecast, container.read(coordinateNotifier));
   }
 
-  fetchWeatherForecast(double lat, double long) async {
-    Uri url = Uri.parse(
-        "https://api.openweathermap.org/data/2.5/forecast/daily?lat=$lat&lon=$long&cnt=10&appid=${get_api_key()}");
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      // good response
-
-      var weatherData = json.decode(response.body);
-
-      /*
-      setState(() {
-        tododata = weatherData["list"];
-      });
-      */
-
-      //updateGUI(); // set state
-    }
-  }
-
   // to refresh data
   _refresh(WidgetRef ref) async {
     try {
@@ -60,6 +43,18 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
       return await ref.read(forecastProvider.future);
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  copySave(var w) {
+    try {
+      setState(() {
+        savedData = w;
+      });
+
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 
@@ -75,16 +70,23 @@ class _WeatherForecastScreen extends ConsumerState<WeatherForecastScreen> {
       extendBodyBehindAppBar: true,
       appBar: appBarUni(context, inForecast: true),
       body: RefreshIndicator(
-          //color: const Color.fromRGBO(100, 100, 100, 100),
-          onRefresh: () => _refresh(ref),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 1),//(top: 100.0),
+        displacement: 150,
+        color: const Color.fromRGBO(100, 100, 100, 100),
+        onRefresh: () => _refresh(ref),
+        child: Padding(
+            padding: const EdgeInsets.only(top: 1), //(top: 100.0),
             child: Center(
               child: config.when(
-                  data: (data) => ForecastLoaded(data: data, ref: ref),
-                  error: (err, stack) => ForecastError(message: err.toString(), refresh_: _refresh, ref: ref),
+                  data: (data) => ForecastLoaded(data: data, ref: ref, saved: copySave(data)),
+                  error: (err, stack) => ForecastError(
+                      message: err.toString(), refresh_: _refresh, ref: ref),
                   loading: () =>
-                      const Center(child: CircularProgressIndicator())),
+                    (savedData == null)?
+                      const Center(child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(Colors.black),)
+                      ) :
+                      ForecastLoaded(data: savedData!, ref: ref, saved: false)
+                ),
             )
           )
         ),

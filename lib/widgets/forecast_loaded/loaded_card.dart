@@ -18,7 +18,13 @@ class LoadedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Padding(
+      padding: (index == 0)?
+        // add top padding to the first element so it doesn't
+        // begin under the appbar
+        const EdgeInsets.only(top: 50.0, left: 10, right: 10) :
+        const EdgeInsets.only(left: 10, right: 10),
+      child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50),
         ),
@@ -29,10 +35,11 @@ class LoadedCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               LoadedDayIcon(longDesc: data.descDesc, icon: data.icon, index: index),
-              
+
 
             ],
           ),
+        )
       )
     );
   }
