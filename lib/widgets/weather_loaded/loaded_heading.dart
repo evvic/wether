@@ -53,18 +53,23 @@ class LoadedHeading extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(15.0),
                           ),
-                          Text("$temp°C",
+                          FittedBox(
+                            child: Text("$temp°C",
                               style: TextStyle(
                                 //fontWeight: FontWeight.bold,
                                 color: Colors.black,
                                 fontSize: 64,
                               )),
-                          Text("$description",
+                          ),
+                          FittedBox(
+                            child: Text("$description",
                               style: TextStyle(
                                 //fontWeight: FontWeight.bold,
                                 color: Colors.grey,
                                 fontSize: 36,
-                              ))
+                            )))
+
+
                         ],
                       ),
                     ))

@@ -23,16 +23,14 @@ class LoadedWindPresRow extends StatelessWidget {
   // represent through a background gradient of red to blue, i.e. where a hotter day would be more red
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-        aspectRatio: 2 / 1,
-        child: Padding(
+    return
+        Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 20.0),
           child: Row(
             children: [
               LoadedPressure(pressure: pressure),
               LoadedWind(windSpeed: windSpeed, windDir: windDir),
             ],
-          ),
         ));
   }
 }

@@ -51,16 +51,17 @@ class _LoadedPressure extends State<LoadedPressure> {
   }*/
 
   //static final hLevelStyle = TextStyle(fontSize: 18, color: col);
-  static const subZtyle = TextStyle(fontSize: 18, color: Colors.black54 );
-  static const feelLikeZtyle = TextStyle(fontSize: 24, color: Colors.black87, fontWeight: FontWeight.bold);
+  static const subZtyle = TextStyle(fontSize: 18, color: Colors.black54);
+  static const feelLikeZtyle = TextStyle(
+      fontSize: 24, color: Colors.black87, fontWeight: FontWeight.bold);
 
   // in the future maybe add some color to this that represetns how hot and/or cool the high and low is for today
   // represent through a background gradient of red to blue, i.e. where a hotter day would be more red
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: AspectRatio(
-      aspectRatio: 1 / 1.15,
+        //child: AspectRatio(
+      //aspectRatio: 1 / 1.15,
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50),
@@ -74,7 +75,8 @@ class _LoadedPressure extends State<LoadedPressure> {
               // PRESSURE HEADING
               Padding(
                 padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-                child: Row(
+                child: FittedBox(
+                    child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     const Icon(
@@ -86,36 +88,51 @@ class _LoadedPressure extends State<LoadedPressure> {
                       style: TextStyle(fontSize: 20, color: Colors.black54),
                     )
                   ],
-                ),
+                )),
               ),
               // BAROMETER UI
               Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: CustomPaint(
-                  //size: Size.infinite,
-                  size: Size(110, 110),
-                  foregroundPainter: PressurePainter(pressure),
-                  child: Padding(
-                    padding: const EdgeInsets.all(33.0),
-
-                    child: Column(
-                      children: [
-                        Text(pressure.toString(),
-                          style: feelLikeZtyle,),
-                        Text("hPa"),
-                      ],
-                    )
-                  ),
-                ),
-              ),
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Expanded(
+                    //fit: FlexFit.tight,
+                    //flex: 1,
+                    child: CustomPaint(
+                      //size: Size.infinite,
+                      //size: Size(110, 110),
+                      foregroundPainter: PressurePainter(pressure),
+                      child: Padding(
+                          //fit: FlexFit.loose,
+                          padding: const EdgeInsets.all(33.0),
+                          child: Container(
+                            child: Column(
+                              children: [
+                                Text(
+                                  pressure.toString(),
+                                  style: feelLikeZtyle,
+                                ),
+                                Text("hPa"),
+                              ],
+                            ),
+                          )),
+                    ),
+                  )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [Text("960", style: subZtyle,), Text("1060", style: subZtyle,)],
-              )
+                children: [
+                  Text(
+                    "960",
+                    style: subZtyle,
+                  ),
+                  Text(
+                    "1060",
+                    style: subZtyle,
+                  )
+                ],
+              ),
             ],
           ),
         ),
-      ),
+      //),
     ));
   }
 }
