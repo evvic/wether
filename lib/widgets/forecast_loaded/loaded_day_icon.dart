@@ -9,7 +9,11 @@ class LoadedDayIcon extends StatelessWidget {
   String icon;
   int index;
 
-  LoadedDayIcon({Key? key, required this.longDesc, required this.icon, required this.index})
+  LoadedDayIcon(
+      {Key? key,
+      required this.longDesc,
+      required this.icon,
+      required this.index})
       : super(key: key);
 
   static const dayNameStyle = TextStyle(
@@ -21,9 +25,25 @@ class LoadedDayIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
       Image.network(
-        "http://openweathermap.org/img/wn/${icon}@2x.png",
+        'http://openweathermap.org/img/wn/${icon}@2x.png',
         scale: 1.6,
+        loadingBuilder: (BuildContext context, Widget child,
+            ImageChunkEvent? loadingProgress) {
+          if (loadingProgress == null) {
+            return child;
+          }
+          return Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(Colors.black),
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded /
+                      loadingProgress.expectedTotalBytes!
+                  : null,
+            ),
+          );
+        },
       ),
+
       RichText(
         text: TextSpan(style: defaultDayNameStyle, children: <TextSpan>[
           TextSpan(text: forecastDay(index), style: dayNameStyle),
