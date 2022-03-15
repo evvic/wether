@@ -37,8 +37,6 @@ class LoadedHeading extends StatelessWidget {
                       );
                     },
                   )
-
-                  //color: Colors.green,
                   ),
             ),
             Expanded(
@@ -73,8 +71,6 @@ class LoadedHeading extends StatelessWidget {
                         ],
                       ),
                     ))
-
-                //color: Colors.green,
                 )
           ],
         )

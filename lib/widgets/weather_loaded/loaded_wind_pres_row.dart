@@ -19,8 +19,6 @@ class LoadedWindPresRow extends StatelessWidget {
   static const ztyle = TextStyle(fontSize: 18);
   static const subZtyle = TextStyle(fontSize: 16, color: Colors.black45);
 
-  // in the future maybe add some color to this that represetns how hot and/or cool the high and low is for today
-  // represent through a background gradient of red to blue, i.e. where a hotter day would be more red
   @override
   Widget build(BuildContext context) {
     return

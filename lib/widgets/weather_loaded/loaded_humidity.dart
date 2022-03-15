@@ -31,8 +31,6 @@ class _LoadedHumidity extends State<LoadedHumidity> {
       humidityLevel = getHumidityLevel();
     });
   }
-  //{Key? key, required this.percentage, required this.feelsLike})
-  //  : super(key: key);
 
   getHumidityLevel() {
     if (percentage < 25) {
@@ -70,8 +68,6 @@ class _LoadedHumidity extends State<LoadedHumidity> {
   static const subZtyle = TextStyle(fontSize: 20, color: Colors.black87);
   static const feelLikeZtyle = TextStyle(fontSize: 16, color: Colors.black87);
 
-  // in the future maybe add some color to this that represetns how hot and/or cool the high and low is for today
-  // represent through a background gradient of red to blue, i.e. where a hotter day would be more red
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -30,33 +30,12 @@ class _LoadedPressure extends State<LoadedPressure> {
       //humidityLevel = getHumidityLevel();
     });
   }
-  //{Key? key, required this.percentage, required this.feelsLike})
-  //  : super(key: key);
-
-/*
-  getHumidityLevel() {
-    if (percentage < 25) {
-      return "Very low";
-    } else if (percentage >= 25 && percentage < 30) {
-      return "Low";
-    } else if (percentage >= 30 && percentage < 60) {
-      return "Good";
-    } else if (percentage >= 60 && percentage < 70) {
-      return "High";
-    } else if (percentage >= 70) {
-      return "Very high";
-    } else {
-      return "Undetectable";
-    }
-  }*/
 
   //static final hLevelStyle = TextStyle(fontSize: 18, color: col);
   static const subZtyle = TextStyle(fontSize: 18, color: Colors.black54);
   static const feelLikeZtyle = TextStyle(
       fontSize: 24, color: Colors.black87, fontWeight: FontWeight.bold);
 
-  // in the future maybe add some color to this that represetns how hot and/or cool the high and low is for today
-  // represent through a background gradient of red to blue, i.e. where a hotter day would be more red
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -94,16 +73,10 @@ class _LoadedPressure extends State<LoadedPressure> {
               Padding(
                   padding: const EdgeInsets.only(top: 10.0),
                   child: Expanded(
-                    //fit: FlexFit.tight,
-                    //flex: 1,
                     child: CustomPaint(
-                      //size: Size.infinite,
-                      //size: Size(110, 110),
                       foregroundPainter: PressurePainter(pressure),
                       child: Padding(
-                          //fit: FlexFit.loose,
                           padding: const EdgeInsets.all(33.0),
-                          child: Container(
                             child: Column(
                               children: [
                                 Text(
@@ -115,7 +88,7 @@ class _LoadedPressure extends State<LoadedPressure> {
                             ),
                           )),
                     ),
-                  )),
+                  ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -132,7 +105,6 @@ class _LoadedPressure extends State<LoadedPressure> {
             ],
           ),
         ),
-      //),
     ));
   }
 }
@@ -174,17 +146,8 @@ class PressurePainter extends CustomPainter {
         endAngle, false, line);
     canvas.drawArc(Rect.fromCircle(center: center, radius: radius), baseAngle,
         arcAngle, false, complete);
-
-    //final arc1 = Path();
-    //arc1.moveTo(0, size.height * 0.6);
-    //arc1.arcToPoint(Offset(size.width, size.height * 0.6),
-    //    radius: Radius.circular(4));
-
-    //canvas.drawPath(arc1, paint);
   }
-
-  //double sweepAngle() => 0.8 * 2 / 3 * math.pi;
-
+  
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return false;
