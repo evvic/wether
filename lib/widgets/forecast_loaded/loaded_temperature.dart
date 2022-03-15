@@ -89,6 +89,7 @@ class LoadedTemperature extends StatelessWidget {
                   text: TextSpan(
                       style: TextStyle(fontSize: 16, color: Colors.black),
                       children: <TextSpan>[
+                        TextSpan(text: "Daytime "),
                         TextSpan(
                             text: tempDay.toString(),
                             style: TextStyle(fontWeight: FontWeight.bold)),
@@ -96,9 +97,14 @@ class LoadedTemperature extends StatelessWidget {
                       ]),
                 )),
             Padding(
-              padding: const EdgeInsets.only(left: 15, right: 10, bottom: 10),
+              padding: const EdgeInsets.only(left: 5, top: 5, bottom: 5),
               child: Row(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5, right: 5),
+                    child: Text(tempMin.toString() + '°',
+                      style: TextStyle(fontSize: 16, color: Colors.black45))
+                  ),
                   Stack(
                     children: [
                       Container(
@@ -139,7 +145,12 @@ class LoadedTemperature extends StatelessWidget {
                         ),
                       ),
                     ],
-                  )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5, right: 5),
+                    child: Text(tempMax.toString() + '°',
+                      style: TextStyle(fontSize: 16, color: Colors.black54))
+                  ),
                 ],
               ),
             )
