@@ -12,6 +12,30 @@ class ForecastLoaded extends StatelessWidget {
 
   ForecastLoaded({required this.data, required this.ref, required this.saved});
 
+  int getWeekMin() {
+    int min = data[0].tempMin;
+
+    for (var obj in data) {
+      if (obj.tempMin < min) {
+        min = obj.tempMin;
+      }
+    }
+
+    return min;
+  }
+
+  int getWeekMax() {
+    int max = data[0].tempMax;
+
+    for (var obj in data) {
+      if (obj.tempMax > max) {
+        max = obj.tempMax;
+      }
+    }
+
+    return max;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -23,7 +47,8 @@ class ForecastLoaded extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         itemCount: data.length,
         itemBuilder: (BuildContext context, int index) {
-          return LoadedCard(index: index, data: data[index]);
+          return LoadedCard(index: index, data: data[index],
+            weekMin: getWeekMin(), weekMax: getWeekMax());
         },
         separatorBuilder: (BuildContext context, int index) =>
             const Divider(color: Colors.transparent),
