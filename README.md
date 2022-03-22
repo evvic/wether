@@ -1,5 +1,5 @@
 # wether
-### A Flutter location based weather mobile app.
+### A Flutter-built location based weather mobile app.
 
 ###### **wether** is a fluid location based weather app that gives all relevant weather data of the users current location in beautiful and easy-to-understand graphics.
 
