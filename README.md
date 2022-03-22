@@ -1,13 +1,15 @@
 # wether
 ### A Flutter location based weather mobile app.
 
-###### Wether is a fluid location based weather app that gives all relevant weather data of the users current location in beautiful and easy-to-understand graphics.
+###### **wether** is a fluid location based weather app that gives all relevant weather data of the users current location in beautiful and easy-to-understand graphics.
 
 <p align="center">
   <img src="/assets/readme/weather_page.jpg" height="350" />
 </p>
 
-#### Screen cast: https://youtu.be/l4-rYDxob_o
+- **[Screen cast](https://youtu.be/l4-rYDxob_o)**
+- **[Privacy policy](https://github.com/evvic/ewic-privacy/blob/main/privacy-policy.md)**
+
 
 | Platform | Available |
 |--------------|--------------|
@@ -20,7 +22,7 @@ This app was built with Flutter, and will eventually be available on both Androi
 This documentation will be organized through the two screens, the current weather screen, and the forecast screen; and additionally their similar functionalities will be discussed first. Both screens function very similarly with loading, error handling, and displaying the loaded data.
 
 
-### Screen Similar functionality
+## Screen Functionality
 
 
 Both of the screens are structured using a **FutureProvider**, provided (hehe) by [Riverpod](https://riverpod.dev/docs/getting_started) for Flutter. When the screen appears, their is a state watcher for the (current weather or forecast) provider. The state watcher has 3 states:
@@ -30,11 +32,6 @@ Both of the screens are structured using a **FutureProvider**, provided (hehe) b
 3. Data
 
 The future provider runs an async function which performs the API call for the weather/forecast data, and returns a Future value wrapped in one of the 3 states; so while it is being listened to in the widget tree, the appropriate Widget will appear. For both screens, the error and loading state look the same, and will be showed below.
-
-
-
-being a page displaying the error message with a refresh button, and just a centered loading icon, respectively. However, both error and loading state have an alternative sub state.
-
 
 
 ## Loading screen state
